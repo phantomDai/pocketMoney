@@ -1,0 +1,961 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>本科论文版检测报告（详细版）</title>
+
+    <link href="report/Content/bootstrap.css" rel="stylesheet" />
+    <link href="report/Content/report.css" rel="stylesheet" />
+    <link href="report/Content/components.css" rel="stylesheet" />
+    <!--[if lt IE 9]>
+      <script src="/cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="/cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    
+    <style>
+        #part1 .row {
+            margin-bottom: 3px;
+        }
+
+        #checkrangelist {
+            float: left;
+            width: 660px;
+        }
+
+            #checkrangelist div {
+                width: 220px;
+                float: left;
+                height: 25px;
+            }
+
+        #bar1 {
+            margin: auto;
+            width: 800px;
+            position: relative;
+            height: 110px;
+        }
+
+
+        .bg-hover {
+            background-color: silver;
+        }
+
+        .tick {
+            width: 1px;
+            height: 15px;
+            background-color: #3FCBDB;
+            position: absolute;
+        }
+
+        .ticktext {
+            /*height: 20px;*/
+            /*color: #3FCBDB;*/
+            position: absolute;
+            font-size: 14px;
+        }
+
+        .block {
+            position: absolute;
+            top: 2px;
+        }
+
+        .small-rect {
+            width: 12px;
+            height: 12px;
+            border: 1px;
+            display: inline-block;
+            margin: 0 3px;
+        }
+
+        .block-hover {
+            border: solid 1px red;
+        }
+
+        /*侧边漂浮边栏*/
+        .current {
+            color: #3fb7c5;
+        }
+
+            .current:hover {
+                color: #3fb7c5;
+            }
+
+        .side_bar {
+            position: fixed;
+            left: 45%;
+            top: 20%;
+            margin-left: 610px;
+            bottom: 20px;
+            width: 48px;
+            z-index: 10000;
+        }
+
+        .borderline {
+            /*border-left:1px solid #337ab7;
+            padding-left:5px;*/
+        }
+
+        .side_bar a {
+            display: inline-block;
+            padding: 10px 20px;
+            line-height: 14px;
+            text-decoration: none;
+            border-left: 1px solid #3fb7c5;
+            cursor: pointer;
+        }
+
+        /*.side_bar a:hover {
+                    color: #337ab7;
+                }*/
+    </style>
+
+    <script>
+        var app = { Setting: { DomainConfig: {} } };
+        app.root = 'report/';
+        app.TitleLink = "http://new.wanfangdata.com.cn/details/detail.do?";
+        app.AuthorLink = "http://social.wanfangdata.com.cn/search/getSearcAcademic.do?";
+
+        //获取_type参数
+        function ArticleType(dbid) {
+            var _type = "";
+            switch (dbid) {
+                case "会议":
+                    _type = "conference";
+                    break;
+                case "期刊":
+                    _type = "perio";
+                    break;
+                case "学位":
+                    _type = "degree";
+                    break;
+                case "网文":
+                    _type = "wangwen";
+                    break;
+                case "专利":
+                    _type = "patent";
+                    break;
+            }
+            return _type
+        }
+
+        //获取id参数
+        function ArticleId(dbid, item) {
+            var articleId = "";
+            switch (dbid) {
+                case "会议":
+                    articleId = _.find(item.dataBaseInfoMap, function (item) { return item.key == '记录ID' });
+                    break;
+                case "期刊":
+                    articleId = _.find(item.dataBaseInfoMap, function (item) { return item.key == 'f_qcode' });
+                    break;
+                case "学位":
+                    articleId = _.find(item.dataBaseInfoMap, function (item) { return item.key == '馆藏号' });
+                    break;
+                case "网文":
+                    articleId = _.find(item.dataBaseInfoMap, function (item) { return item.key == '来源' });
+                    break;
+                case "专利":
+                    articleId = _.find(item.dataBaseInfoMap, function (item) { return item.key == 'number' });
+                    break;
+            }
+            return articleId;
+        }
+
+        
+    </script>
+    <script>
+        /* 兼容IE8 Array.indexOf */
+        Array.prototype.indexOf = function (item) {
+            return _.indexOf(this, item);
+        };
+    </script>
+</head>
+<body>
+    <!-- 头部 -->
+    <div class="header" style="background-color:white;">
+        <div class="container" style="height:82px;">
+            <img src="report/Content/Images/logo.png" style="margin: 25px 0 15px 70px;height:42px;" />
+        </div>
+    </div>
+
+    <!-- 主要 -->
+    <div class="report-wrapper">
+        <div class="report-container">
+            <!-- 报告头部 -->
+            <div class="report-header">
+                <div class="title">本科论文版检测报告（详细版）</div>
+                <hr class="hr-header" />
+            </div>
+
+            <!-- 报告主体 -->
+            <div class="report-body">
+                
+
+
+
+<!-- 1、报告摘要 -->
+
+<div id="part1" class="section" style="background-color:#f4feff;">
+    <div style="padding:15px 0">
+        <div class="row">
+            <div class="col-md-5 col-md-offset-1">
+                <label>报告编号：</label><span>BD-20190518-C7892ED3-XX</span>
+            </div>
+            <div class="col-md-5 col-md-offset-1">
+                <label>检测时间：</label><span>2019-05-18 18:50:27</span>
+            </div>
+            <div class="col-md-5 col-md-offset-1">
+                <label>题&#12288;&#12288;名：</label><span>地方</span>
+            </div>
+
+            <div class="col-md-5 col-md-offset-1">
+                <label>作&#12288;&#12288;者：</label><span>发阿发</span>
+            </div>
+
+                        
+
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <label style="float:left;">检测范围：</label>
+                <div id="checkrangelist">
+                                <div>
+                                    <input type="checkbox" checked="checked" disabled />中国学术期刊数据库
+                                </div>
+                                <div>
+                                    <input type="checkbox" checked="checked" disabled />中国学位论文全文数据库
+                                </div>
+                                <div>
+                                    <input type="checkbox" checked="checked" disabled />中国学术会议论文数据库
+                                </div>
+                                <div>
+                                    <input type="checkbox" checked="checked" disabled />中国学术网页数据库
+                                </div>
+                                <div>
+                                    <input type="checkbox" checked="checked" disabled />中国专利文献数据库
+                                </div>
+                                <div>
+                                    <input type="checkbox" checked="checked" disabled />中国优秀报纸数据库
+                                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- 2、检测结果 -->
+<div id="part2" class="section">
+    <h2>检测结果</h2>
+    <div class="row">
+            <div class="col-md-3">
+                <div>
+                    <div>
+                        <div id="graph1" data-bind="graphPie1: copyPercentGraph" style="width:160px;height:160px;margin:20px;"></div>
+                    </div>
+                    <div>
+                        <div id="graph2" class="container graph-originaltotal" style="width:200px;height:80px;margin:30px 0;">
+                            <div class="row" style="margin-bottom:20px;">
+                                <div class="col-md-6" style="text-align:right;padding-right:0;">检测字数</div>
+                                <div class="col-md-6">
+                                    <span class="label label-main" data-bind="numeral: originalCharacterTotal"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6" style="text-align:right;padding-right:0;">原文总段落数</div>
+                                <div class="col-md-6">
+                                    <span class="label label-main" data-bind="numeral: originalParagraphTotal"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9" style="color:#A8A8A8;font-size:13px;">
+                <div class="row">
+                    <span>总相似比</span><span data-bind="text: copyPercents().totalCopyPercent + '%'"></span>
+                </div>
+                    <graph-bar2 params="value: copyPercents, withDegree: false"></graph-bar2>
+                    <div class="row" style="font-size: 12px;">
+                        <div class="col-md-5 col-md-offset-1">
+                            <div class="small-rect bg-others"></div><span>红色代表排除当前类别文献相似比</span>
+                        </div>
+                        <!-- ko if:('BD' == 'PA'||'BD' == 'PLPA'||'BD' == 'ALPA'||'BD' == 'AP') -->
+                        <div class="col-md-5 col-md-offset-1">
+                            <div class="small-rect bg-degree"></div><span>黄色代表可能引用本人学位论文相似比</span>
+                        </div>
+                        <!-- /ko -->
+                        <div class="col-md-5 col-md-offset-1">
+                            <div class="small-rect bg-reference"></div><span>绿色代表参考文献相似比</span>
+                        </div>
+                        <div class="col-md-5 col-md-offset-1">
+                            <div class="small-rect bg-published"></div><span>蓝色代表可能引用本人已发表论文相似比</span>
+                        </div>
+
+                    </div>
+            </div>
+    </div>
+</div>
+
+<!-- 3、相似片段分布图 -->
+<div id="part3" class="section">
+    <h2>相似片段分布图</h2>
+        <table class="table table-bordered table-sm" id="similarArticleInfo" style="display:none;">
+            <thead>
+                <tr>
+                    <th style="width:15%;">相似比</th>
+                    <th style="text-align:initial;">题名</th>
+                    <th style="width:15%;">作者</th>
+                    <th style="width:15%;">是否引用</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="similarArticleInfoTR">
+                    <td id="similarArticleInfo1" style="text-align:center;"></td>
+                    <td><a id="similarArticleInfo2" style="color: inherit;"></a></td>
+                    <td id="similarArticleInfo3" style="text-align:center;"></td>
+                    <td id="similarArticleInfo4" style="text-align:center;"></td>
+                </tr>
+            </tbody>
+        </table>
+    <div id="bar1">
+        <div style="width: 800px; height: 80px; border: 2px solid rgb(63, 203, 219); box-sizing: content-box;"></div>
+        <div class="tick" style="top: 84px; left: 160px;"></div>
+        <div class="tick" style="top: 84px; left: 320px;"></div>
+        <div class="tick" style="top: 84px; left: 480px;"></div>
+        <div class="tick" style="top: 84px; left: 640px;"></div>
+        <div class="ticktext" style="top: 84px; left: 80px;">头部</div>
+        <div class="ticktext" style="top: 84px; left: 240px;">中前部</div>
+        <div class="ticktext" style="top: 84px; left: 400px;">中部</div>
+        <div class="ticktext" style="top: 84px; left: 560px;">中后部</div>
+        <div class="ticktext" style="top: 84px; left: 720px;">后部</div>
+    </div>
+    <p style="text-align: center;color:#A8A8A8;">
+        注：<span class="text-reference">绿色</span>区域为参考文献相似部分，
+        <span class="text-published">蓝色</span>区域为本人已发表论文相似部分，
+        <!-- ko if:('BD' == 'PA'||'BD' == 'PLPA'||'BD' == 'ALPA'||'BD' == 'AP') -->
+        <span class="text-degree">黄色</span>为本人学位论文相似部分，
+        <!-- /ko -->
+        <span class="text-others">红色</span>区域为其他文献相似部分
+    </p>
+</div>
+    <!-- 4、相似作者分布 -->
+    <div id="part4" class="section">
+        <h2>相似作者分布</h2>
+        <p style="float: left; color: gray; font-size: 12px;" data-bind="visible: similarAuthorsShow() == 'graph'">
+            <span class="glyphicon glyphicon-warning-sign"></span>仅举例相似比数值为前八位的相似作者
+        </p>
+        <button type="button" class="btn btn-info btn-sm" style="float:right;margin-bottom:10px;" data-bind="click: similarAuthorsToggle, text: similarAuthorsShow() == 'table' ? '可视化效果' : '查看列表' "></button>
+        <div class="clearfix"></div>
+
+        <table class="table table-bordered" data-bind="visible: similarAuthorsShow() == 'table'">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>作者</th>
+                    <th>相似比</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: SimilarAuthors">
+                <tr>
+                    <td data-bind="text: ($index() + 1)"></td>
+                    <td style="text-align: center;">
+                        <a class="" data-bind="text: Author, attr: { href: (Link),target: '_blank' }"></a>
+                    </td>
+                    <td data-bind="text: (CopyPercent * 100).toFixed('2') + '%'"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <bubble-cloud params="value: SimilarAuthors" data-bind="visible: similarAuthorsShow() == 'graph'"></bubble-cloud>
+    </div>
+
+<!-- 5、相似文献列表 -->
+<div id="part5" class="section">
+    <h2>相似文献列表</h2>
+    <p style="float: left; color: gray; font-size: 12px;" data-bind="visible: similarArticlesShow() == 'graph'">
+        <span class="glyphicon glyphicon-warning-sign"></span>仅举例八篇相似文献（按相似比大小降序排列）
+    </p>
+    <button type="button" class="btn btn-info btn-sm" style="float:right;margin-bottom:10px;" data-bind="click: similarArticlesToggle, text: similarArticlesShow() == 'table' ? '可视化效果' : '查看列表'"></button>
+    <div class="clearfix"></div>
+
+    <rose-pie params="id: 'articleRosePie', value: SimilarArticles" id="articleRosePie" data-bind="visible: similarArticlesShow() == 'graph'"></rose-pie>
+        <table class="table table-bordered" data-bind="visible: similarArticlesShow() == 'table'">
+            <thead>
+                <tr>
+                    <th style="width:6%; text-align: center;">序号</th>
+                    <th style="width:10%; text-align: center;">相似比</th>
+                    <th style="text-align: center;">题名</th>
+                    <th style="width:10%; text-align: center;">作者</th>
+                    <th style="width:10%; text-align: center;">文献类型</th>
+                    <th style="text-align: center;">来源</th>
+                    <th style="width:11%; text-align: center;">发表时间</th>
+                    <th style="width:9%; text-align: center;">是否引用</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: SimilarArticles">
+                <tr data-bind="attr:{'class': !hasBanquan ? 'text-nocopyright' : (!isPublished ? 'text-others':(
+                                        isReference ? 'text-reference' : (
+                                        isPublishedSelfCited ? 'text-published' : (
+                                        isUnPublishedSelfCited ? 'text-degree' : 'text-others'))))}">
+                    <td style="text-align: center;" data-bind="text: ($index() + 1)"></td>
+                    <td style="text-align: center;" data-bind="text: (copyPercent * 100).toFixed('2') + '%'"></td>
+                    <td>
+                        <a data-bind="text: title[0], attr: { href: list[$index()].TitleLink,target: '_blank', 'class': !hasBanquan ? 'text-nocopyright' : (!isPublished ? 'text-others':(
+                                        isReference ? 'text-reference' : (
+                                        isPublishedSelfCited ? 'text-published' : (
+                                        isUnPublishedSelfCited ? 'text-degree' : 'text-others'))))}"></a>
+                    </td>
+                    <td style="text-align: center;">
+                        <a data-bind="text: creator[0], attr: { href: list[$index()].AuthorLink,target: '_blank', 'class': !hasBanquan ? 'text-nocopyright' : (!isPublished ? 'text-others':(
+                                        isReference ? 'text-reference' : (
+                                        isPublishedSelfCited ? 'text-published' : (
+                                        isUnPublishedSelfCited ? 'text-degree' : 'text-others'))))}"></a>
+                    </td>
+                    <td style="text-align: center;" data-bind="text: DBID + '论文'"></td>
+                    <td style="text-align: center;" data-bind="text: source ? source : '-'"></td>
+                    <td style="text-align: center;" data-bind="text: moment(date).format('YYYY-MM-DD')"></td>
+                    <td style="text-align: center;  " data-bind="text: isReference ? '是': '否'"></td>
+                </tr>
+            </tbody>
+        </table>
+
+</div>
+
+<!-- 6、相似片段详情 -->
+<div id="part6" class="section">
+    <h2>相似片段详情</h2>
+    <!-- ko foreach: SimilarFragments -->
+    <div class="row" data-bind='attr:{ id: ("fragment" + $index()) }'>
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <tr>
+                    <td width="50%" style="padding:0;text-align:left;">
+                        <div data-bind="text: ($index() + 1)" style="width: 37px;line-height: 37px;background-color: #e8e8e8;float:left;text-align:center;">1</div>
+                        <div style="line-height: 37px;font-weight:bold;text-align:center;border-bottom:1px solid #ddd">送检文献片段</div>
+                        <span style="margin-left:15px;">位置</span>
+                        <div style="margin: auto;width: 433px;position: relative;height: 60px;margin-top: 10px;">
+                            <div style="width: 400px; height: 30px; border: 1px solid rgb(63, 203, 219); box-sizing: content-box;"></div>
+                            <div class="tick" style="top: 32px; left: 80px;"></div>
+                            <div class="tick" style="top: 32px; left: 160px;"></div>
+                            <div class="tick" style="top: 32px; left: 240px;"></div>
+                            <div class="tick" style="top: 32px; left: 320px;"></div>
+                            <div class="ticktext" style="top: 32px; left: 30px;">头部</div>
+                            <div class="ticktext" style="top: 32px; left: 100px;">中前部</div>
+                            <div class="ticktext" style="top: 32px; left: 190px;">中部</div>
+                            <div class="ticktext" style="top: 32px; left: 260px;">中后部</div>
+                            <div class="ticktext" style="top: 32px; left: 350px;">后部</div>
+                            <div class="block bg-others" data-bind="style: { width: width, left: left }" style="height: 30px; left: 5.2369px; width: 24.7623px; top:1px;"></div>
+                        </div>
+                        <div style="width: 433px;margin-left:15px;word-break:break-all" data-bind="html: textFoo + text + textBar"></div>
+                    </td>
+                    <td width="50%" colspan="2" style="padding:0;text-align:left;">
+                        <div style="line-height: 30px;background-color: #26B1C1;color:white;float:left;margin-top: 3px;padding: 0 5px;">相似比：<!-- ko text: (copyPercent * 100).toFixed('2') + '%' --><!-- /ko --></div>
+                        <div style="line-height: 37px;font-weight:bold;text-align:center;">相似文献片段</div>
+                            <p data-bind="css: (hasBanquan ? '' : 'text-nocopyright')" style="padding-left:8px;background-color:#F1F4F8;line-height:30px;">
+                                [<!-- ko text: DBID --><!-- /ko -->]<a style="color: inherit;" data-bind="attr: { href: titleAuthorList[$index()].TitleLink, target: '_blank'}"><!-- ko text: title --><!-- /ko --></a>
+                                <br />
+                                - <!-- ko text: source --><!-- /ko -->
+                                <br />
+                                <a style="color: inherit;" data-bind="attr: { href: titleAuthorList[$index()].AuthorLink, target: '_blank'}"><!-- ko text: creator --><!-- /ko --></a>
+                                - <!-- ko text: date --><!-- /ko -->
+                                - 是否引用：<span style="color:red;"><!-- ko text: isReference --><!-- /ko --></span>
+                            </p>
+
+                        <div style="width: 433px;margin-left:15px;word-break:break-all" data-bind="html: hasBanquan ? hitText : ''"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!-- /ko -->
+</div>
+
+<!-- 说明 -->
+<div style="font-size:12px;">
+    
+
+<p>说明：</p>
+        <p>1.送检文献总字数=送检文献的总字符数，包含汉字、非中文字符、标点符号、阿拉伯数字（不计入空格）</p>
+        <p>2.总相似比=送检论文与检测范围全部数据相似部分的字数/检测总字符数</p>
+        <p>3.参考文献相似比=送检论文与其参考文献相似部分的字数/检测总字符数</p>
+        <p>4.辅助排除参考文献相似比=总相似比-参考文献相似比</p>
+        <p>5.可能引用本人已发表论文相似比=可能抄袭本人已发表文献的字数/检测总字符数</p>
+        <p>6.辅助排除本人已发表论文相似比=总相似比-可能引用本人已发表论文相似比</p>
+        <p>7.“单篇文献最大相似比”：送检文献与某一文献的相似比高于全部其他文献</p>
+        <p>8.“是否引用”：某一相似文献是否被送检文献列为其参考文献</p>
+
+</div>
+
+
+            </div>
+
+            <!-- 报告尾部 -->
+            <div class="report-footer">
+                <hr class="hr-footer" />
+                <div>
+                        <p>检测报告由万方数据文献相似性检测系统算法生成</p>
+                        <p>仅对您所选择的检测范围内检验结果负责，结果仅供参考</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="report/Scripts/underscore-min.js"></script>
+    <script src="report/Scripts/jquery-1.12.4.min.js"></script>
+    <script src="report/Scripts/iframeResizer.contentWindow.min.js"></script>
+    <script src="report/Scripts/moment.min.js"></script>
+    <script src="report/Scripts/knockout-3.4.0.js"></script>
+    <script src="report/Scripts/bootstrap.min.js"></script>
+    <script src="report/Scripts/echarts.min.js"></script>
+    <script src="report/Scripts/numeral/numeral.min.js"></script>
+    <script src="report/Scripts/require.js"></script>
+    <script>
+        require.config({
+            paths: {
+                'knockout': app.root + 'Scripts/knockout-3.4.0',
+                'text': app.root + 'Scripts/text'
+            }
+        });
+
+        // To keep the network tab clear when the visitor is running live examples,
+        // preload the following.
+        require(['text', 'knockout'], function () { });
+    </script>
+
+    <script src="report/Scripts/app/bindinghandlers.js"></script>
+    <script src="report/Scripts/app/report.js"></script>
+    
+    <script src="report/Scripts/app/Detail.js"></script>
+    <script>
+        /*侧边漂浮边栏*/
+        var $navs = $('.side_bar a'),          // 导航
+            $sections = $('.section'),       // 模块
+            $window = $(window),
+            navLength = $navs.length - 1;
+
+        $window.on('scroll', function () {
+            var scrollTop = $window.scrollTop()-226,
+                      len = navLength;
+
+            console.log(index);
+            for (len = navLength; len > -1; len--) {
+                var that = $sections.eq(len);
+
+                if (scrollTop >= that.offset().top||index==navLength) {
+                    $navs.removeClass('current').eq(len).addClass('current');
+                    index=-1;
+                    break;
+                }
+            }
+        });
+        var index=-1;
+        $navs.on('click', function () {
+            $navs.each(function (index, ele) {
+                $(ele).removeClass('current');
+            })
+            var id = $(this).attr("id");
+
+            index=$(this).index();
+
+            switch (id) {
+                case "a1":
+                    location.href = "#part1";
+                    $("#a1").addClass('current');
+                    break;
+                case "a2":
+                    location.href = "#part2";
+                    $("#a2").addClass('current');
+                    break;
+                case "a3":
+                    location.href = "#part3";
+                    $("#a3").addClass('current');
+                    break;
+                case "a4":
+                    location.href = "#part4";
+                    $("#a4").addClass('current');
+                    break;
+                case "a5":
+                    location.href = "#part5";
+                    $("#a5").addClass('current');
+                    break;
+                case "a6":
+                    location.href = "#part6";
+                    $("#a6").addClass('current');
+                    break;
+                default:
+
+            }
+            return false;
+        })
+
+        //var data = Html.Raw(Json.Encode(Model.CheckResult));
+        var data = {"detailMatchTime":0,"hitDetailInfoList":[{"beginPosition":300,"copyPercent":0.00130367477,"hitBeginPosition":1717,"hitLength":102,"hitText":"和方法。自然语言处理是人工智能中最困难的问题之一。\r\n实现人机间的自然语言通信，意味着要使计算机既能理解自然语言文本的意义，也能以自然语言文本来表达给定的意图、思想等。前者称为自然语言理解，后者称为自然语","length":23,"originalChars":[300,301,302,303,304,305,308,309,310,311,312,313,316,320,321,322],"recordIndex":29,"similarChars":[1757,1758,1759,1762,1763,1764,1767,1768,1769,1770,1771,1772,1775,1776,1777,1778]},{"beginPosition":430,"copyPercent":0.0008962764,"hitBeginPosition":1717,"hitLength":102,"hitText":"和方法。自然语言处理是人工智能中最困难的问题之一。\r\n实现人机间的自然语言通信，意味着要使计算机既能理解自然语言文本的意义，也能以自然语言文本来表达给定的意图、思想等。前者称为自然语言理解，后者称为自然语","length":19,"originalChars":[432,433,434,437,438,439,440,441,442,443,448],"recordIndex":29,"similarChars":[1762,1763,1764,1767,1768,1769,1770,1771,1772,1775,1778]},{"beginPosition":495,"copyPercent":0.00244439021,"hitBeginPosition":1835,"hitLength":127,"hitText":"括自然语言理解和自然语言生成两个部分。\r\n无论实现自然语言理解还是自然语言生成，都是十分困难的。从现有的理论和技术看，通用的、高质量的自然语言处理系统仍然是较长期的努力目标，但是针对一定应用，具有相当自然语言处理能力的实用系统已经出现，有些已商品化，甚至","length":74,"originalChars":[495,496,497,498,499,500,501,504,523,527,528,529,530,531,532,533,534,535,536,550,554,555,556,557,558,559,560,561,562,563],"recordIndex":29,"similarChars":[1875,1876,1877,1878,1879,1880,1881,1882,1901,1902,1903,1904,1905,1906,1907,1908,1909,1916,1921,1901,1902,1903,1904,1905,1906,1907,1908,1909,1916,1921]},{"beginPosition":1392,"copyPercent":0.00162959343,"hitBeginPosition":414,"hitLength":105,"hitText":"，对我国的国民经济的推动发挥着积极的作用。中小型企业数量明显增加，规模不断扩大，目前中小型企业已经成为我国经济发展的重要推动力量。但是大多数的中小企业规模都不大，可用的资源也是非常有限，抗风险能力也比较弱，在市","length":20,"originalChars":[1392,1393,1394,1395,1396,1397,1398,1399,1400,1401,1402,1403,1404,1405,1406,1407,1408,1409,1410,1411],"recordIndex":18,"similarChars":[459,460,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,477,478]},{"beginPosition":1422,"copyPercent":0.00114071544,"hitBeginPosition":9968,"hitLength":99,"hitText":"述\r\n条件随机场模型（CRF models）最早由J。Lafferty等人提出，之后在自然语言处理领域得到广泛的应用。\r\n条件随机场模型是基于最大熵模型发展而来的。和最大熵一样，它也是一个判别模型。","length":19,"originalChars":[1422,1423,1424,1425,1426,1427,1428,1429,1433,1434,1435,1436,1437,1440],"recordIndex":5,"similarChars":[10011,10012,10013,10014,10015,10016,10017,10018,10019,10020,10021,10022,10023,10026]},{"beginPosition":1990,"copyPercent":0.0206958372,"hitBeginPosition":341,"hitLength":340,"hitText":"统研制方面，成绩并不显著。研制的一些系统大多数是小规模的、研究性的演示系统。\r\n目前存在的问题有两个方面：一方面，迄今为止的语法都限于分析一个孤立的句子，上下文关系和谈话环境对本句的约束和影响还缺乏系统的研究，因此分析歧义、词语省略、代词所指、同一句话在不同场合或由不同的人说出来所具有的不同含义等问题，尚无明确规律可循，需要加强语言学的研究才能逐步解决。另一方面，人理解一个句子不是单凭语法，还运用了大量的有关知识，包括生活知识和专门知识，这些知识无法全部贮存在计算机里。因此一个书面理解系统只能建立在有限的词汇、句型和特定的主题范围内；计算机的贮存量和运转速度大大提高之后，才有可能适当扩大范围。\r\n许多不同类的机器学习算法已应用于自然语言处理任务。这些算法的输入是一大组从输","length":259,"originalChars":[1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050,2051,2052,2053,2054,2055,2056,2057,2058,2059,2060,2061,2062,2063,2064,2065,2066,2067,2068,2069,2070,2071,2072,2073,2074,2075,2076,2077,2078,2079,2080,2081,2082,2083,2084,2085,2086,2087,2088,2089,2090,2091,2092,2093,2094,2095,2096,2097,2098,2099,2100,2101,2102,2103,2104,2105,2106,2107,2108,2109,2110,2111,2112,2113,2117,2118,2119,2120,2121,2122,2123,2124,2125,2126,2127,2128,2129,2130,2131,2132,2133,2134,2135,2136,2137,2138,2139,2140,2141,2142,2143,2144,2145,2146,2147,2148,2149,2150,2151,2152,2153,2154,2155,2156,2157,2158,2159,2160,2161,2162,2163,2164,2165,2166,2167,2168,2169,2170,2171,2172,2173,2174,2175,2176,2177,2178,2179,2180,2181,2182,2183,2184,2185,2186,2187,2188,2189,2190,2191,2192,2193,2194,2195,2196,2197,2198,2199,2200,2201,2202,2203,2204,2205,2206,2207,2208,2209,2210,2211,2212,2213,2214,2215,2216,2217,2218,2219,2220,2221,2222,2223,2224,2225,2226,2227,2228,2229,2230,2231,2232,2233,2234,2235,2236,2237,2238,2239,2240,2241,2242,2243,2244,2245,2246,2247,2248],"recordIndex":3,"similarChars":[383,384,385,386,387,389,390,391,392,393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417,418,419,420,421,422,423,424,425,426,427,428,429,430,431,432,433,434,435,436,437,438,439,440,441,442,443,444,445,446,447,448,449,450,451,452,453,454,455,456,457,458,459,460,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,477,478,479,480,481,482,483,484,485,486,487,488,489,490,491,492,493,494,495,496,497,498,499,500,501,502,503,504,505,509,510,511,512,513,514,515,516,517,518,519,520,521,522,523,524,525,526,527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,542,543,544,545,546,547,548,549,550,551,552,553,554,555,556,557,558,559,560,561,562,563,564,565,566,567,568,569,570,571,572,573,574,575,576,577,578,579,580,581,582,583,584,585,586,587,588,589,590,591,592,593,594,595,596,597,598,599,600,601,602,603,604,605,606,607,608,609,610,611,612,613,614,615,616,617,618,619,620,621,622,623,624,625,626,627,628,629,630,631,632,633,634,635,636,637,638,639,640]},{"beginPosition":2324,"copyPercent":0.00130367477,"hitBeginPosition":4058,"hitLength":98,"hitText":"。与此同时，在移动互联网的促成之下，“互联网+交通”利用移动互联网、大数据开发、云计算及物联网等新兴的信息通信技术，将传统的交通运输业与互联网新兴产业完美的进行融合，形成了“线上资源分配合理，线下","length":18,"originalChars":[2324,2325,2326,2327,2328,2329,2330,2331,2332,2333,2334,2335,2336,2337,2338,2341],"recordIndex":20,"similarChars":[4098,4099,4100,4101,4102,4103,4104,4105,4108,4109,4110,4111,4112,4113,4114,4115]},{"beginPosition":2397,"copyPercent":0.00741465,"hitBeginPosition":0,"hitLength":138,"hitText":"文学家主观虚构的文学世界，来源于现实，反映了现实世界，因此每个时期的作品或多或少都有着那个时期特有的特点。在文学作品中，人物的优缺点会被放大，这是作者为了将对现实世界的想法赋予到作品中的人物身上。而反映了文学家主观建构的感知人际网络与客观现实人际网络，是否存在一定的联系？能否","length":116,"originalChars":[2415,2416,2417,2418,2419,2420,2421,2422,2423,2424,2425,2426,2427,2431,2432,2433,2434,2435,2436,2439,2440,2442,2443,2444,2445,2446,2447,2448,2449,2450,2451,2452,2453,2454,2455,2456,2457,2458,2459,2460,2461,2462,2463,2464,2465,2466,2467,2468,2469,2470,2471,2472,2473,2474,2475,2476,2477,2478,2479,2480,2481,2482,2483,2484,2485,2486,2487,2488,2489,2490,2491,2492,2493,2494,2495,2496,2497,2498,2499,2500,2501,2502,2503,2504,2505,2506,2507,2508,2509,2510,2511],"recordIndex":16,"similarChars":[0,1,2,3,4,5,6,7,8,9,10,11,12,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96]},{"beginPosition":2872,"copyPercent":0.0014666341,"hitBeginPosition":5700,"hitLength":101,"hitText":"分析、需求实施与验证、需求后评估等几个方面。具体来说，本论文的主要内容如下：\r\n第一章，绪论：包括本课题的研究背景及意义，本课题的研究内容及框架，相关理论回顾等内容，其中相关理论回顾部分包括项目管理理论","length":23,"originalChars":[2872,2873,2874,2875,2877,2878,2879,2882,2883,2884,2885,2886,2887,2888,2889,2890,2892,2893],"recordIndex":10,"similarChars":[5740,5741,5742,5743,5744,5745,5747,5748,5750,5751,5752,5753,5754,5755,5756,5758,5759,5760]},{"beginPosition":2895,"copyPercent":0.00105923577,"hitBeginPosition":5597,"hitLength":97,"hitText":"各章内容安排如下：\r\n第一章引言。介绍了本论文的选题背景和意义、国内外研究现状、本文研究内容及成果和论文组织结构。\r\n第二章常用目标检测，跟踪特征及跟踪方法，相关理论基础。\r\n第三章各种矩特征的","length":17,"originalChars":[2895,2896,2897,2898,2900,2901,2904,2905,2907,2908,2909,2910,2911],"recordIndex":22,"similarChars":[5639,5640,5641,5642,5644,5645,5647,5648,5649,5650,5651,5652,5653]},{"beginPosition":3584,"copyPercent":0.00725169061,"hitBeginPosition":1261,"hitLength":183,"hitText":"ion ”系统 [8]。而图模型是一种完全无监督技术，也是近期关键词提取的热点。2004 年，Mihalcea 和 Tarau 利用特征词在共现窗格中出现的关系构造词与词的图模型，并结合 Google 公词提出的 PageRank 算法，提出 TextRank 关键词提取算法 [9]。夏天将词向量聚类加权与 TextRank 算法相结合，提高了单篇文档关键词的准确","length":102,"originalChars":[3584,3585,3586,3587,3589,3590,3591,3592,3593,3594,3595,3596,3597,3598,3600,3602,3603,3604,3605,3606,3608,3609,3610,3611,3612,3613,3614,3615,3616,3617,3618,3619,3620,3621,3622,3623,3624,3625,3626,3627,3628,3629,3630,3631,3632,3633,3634,3635,3636,3638,3639,3640,3641,3642,3643,3645,3646,3647,3648,3649,3651,3652,3653,3654,3655,3656,3657,3658,3660,3661,3662,3663,3664,3666,3667,3668,3669,3670,3671,3672,3673,3675,3676,3677,3678,3679,3680,3681,3685],"recordIndex":6,"similarChars":[1301,1302,1303,1304,1306,1307,1308,1309,1310,1311,1312,1313,1314,1315,1317,1319,1320,1321,1322,1323,1325,1326,1327,1328,1329,1330,1331,1332,1333,1334,1335,1336,1337,1338,1339,1340,1341,1342,1343,1344,1345,1346,1347,1348,1349,1350,1351,1352,1353,1355,1356,1357,1358,1359,1360,1362,1363,1364,1365,1366,1368,1369,1370,1371,1372,1373,1374,1375,1377,1378,1379,1380,1381,1383,1384,1385,1386,1387,1388,1389,1390,1392,1393,1394,1395,1396,1397,1398,1403]},{"beginPosition":3688,"copyPercent":0.0220809914,"hitBeginPosition":1477,"hitLength":381,"hitText":"进行了总结分析，并预测了未来自动关键词抽取的发展和将要面临的挑战 [11].\r\n2012 年，Google 率先提出知识图谱 （Knowledge Graph）的概念，将知识图谱应用到搜索引擎中。运用自然语言处理提取实体和实体间的关系，并以此分别作为图谱的节点和边，构建知识图谱。知识图谱的关键技术主要有知识抽取、知识表示、知识融合以及知识推理技术等。文献 [12]运用 KNN 算法与条件随机场模型，对 Twitter 文本数据中实体进行抽取。\r\n陈立玮等人 [13]提出了一种协同训练方法，通过向传统模型中引入 N-Gram 特征进行协同训练，改善了弱监督关系抽取模型的效果。Li J 等人根据给定的少量种子链接，利用概念标注方法，发现新的链接，最终实现了知识的扩充 [14]。但是，知识图谱大部分工作是由人工处理的，与自然语言结合的少，而能源领域的知识图谱","length":296,"originalChars":[3688,3689,3690,3691,3693,3694,3695,3696,3697,3698,3699,3700,3702,3703,3704,3705,3706,3707,3708,3709,3711,3712,3713,3714,3715,3716,3717,3718,3719,3720,3723,3724,3725,3726,3727,3728,3729,3730,3731,3732,3733,3734,3735,3736,3737,3738,3739,3740,3741,3742,3743,3744,3745,3746,3747,3748,3749,3750,3751,3752,3753,3754,3755,3756,3757,3758,3759,3760,3761,3762,3763,3764,3765,3766,3767,3768,3769,3770,3771,3772,3773,3774,3775,3776,3777,3778,3779,3780,3781,3782,3783,3784,3785,3786,3787,3788,3789,3790,3791,3792,3793,3794,3795,3796,3797,3798,3799,3800,3801,3802,3803,3804,3805,3806,3807,3808,3809,3810,3811,3812,3813,3814,3815,3816,3817,3818,3819,3820,3821,3822,3823,3824,3825,3826,3832,3833,3835,3836,3837,3839,3840,3841,3842,3843,3844,3845,3846,3847,3848,3849,3850,3852,3853,3854,3855,3856,3857,3858,3860,3861,3862,3863,3864,3865,3866,3867,3868,3869,3870,3871,3872,3873,3874,3875,3876,3882,3883,3884,3885,3886,3887,3888,3889,3890,3891,3892,3893,3894,3895,3896,3897,3898,3899,3900,3901,3902,3903,3905,3906,3907,3908,3909,3910,3912,3913,3914,3915,3916,3917,3918,3919,3920,3921,3922,3923,3924,3925,3926,3927,3928,3929,3930,3931,3932,3933,3934,3935,3936,3937,3938,3939,3940,3941,3942,3943,3944,3945,3946,3947,3948,3949,3950,3951,3952,3953,3954,3955,3956,3957,3958,3959,3960,3961,3962,3963,3964,3965,3966,3967,3968,3969,3970,3971,3972,3973,3974,3975,3976,3977,3978,3983],"recordIndex":6,"similarChars":[1517,1518,1519,1520,1522,1523,1524,1525,1526,1527,1528,1529,1531,1532,1533,1534,1535,1536,1537,1538,1540,1541,1542,1543,1544,1545,1546,1547,1548,1549,1551,1552,1553,1554,1555,1556,1557,1558,1559,1560,1561,1562,1563,1564,1565,1566,1567,1568,1569,1570,1571,1572,1573,1574,1575,1576,1577,1578,1579,1580,1581,1582,1583,1584,1585,1586,1587,1588,1589,1590,1591,1592,1593,1594,1595,1596,1597,1598,1599,1600,1601,1602,1603,1604,1605,1606,1607,1608,1609,1610,1611,1612,1613,1614,1615,1616,1617,1618,1619,1620,1621,1622,1623,1624,1625,1626,1627,1628,1629,1630,1631,1632,1633,1634,1635,1636,1637,1638,1639,1640,1641,1642,1643,1644,1645,1646,1647,1648,1649,1650,1651,1652,1653,1654,1660,1661,1663,1664,1665,1667,1668,1669,1670,1671,1672,1673,1674,1675,1676,1677,1678,1680,1681,1682,1683,1684,1685,1686,1688,1689,1690,1691,1692,1693,1694,1695,1696,1697,1698,1699,1702,1703,1704,1705,1706,1712,1713,1714,1715,1716,1717,1718,1719,1720,1721,1722,1723,1724,1725,1726,1727,1728,1729,1730,1731,1732,1733,1735,1736,1737,1738,1739,1740,1742,1743,1744,1745,1746,1747,1748,1749,1750,1751,1752,1753,1754,1755,1756,1757,1758,1759,1760,1761,1762,1763,1764,1765,1766,1767,1768,1772,1773,1774,1775,1776,1777,1778,1779,1780,1781,1782,1783,1784,1785,1786,1787,1788,1789,1790,1791,1792,1793,1794,1795,1796,1797,1798,1799,1800,1801,1802,1803,1804,1805,1806,1807,1808,1809,1810,1811,1817]},{"beginPosition":4028,"copyPercent":0.00350362575,"hitBeginPosition":19488,"hitLength":129,"hitText":"的分词器，但是它使用方便，接口清晰，容易上手使用，准确性能够达到常规使用的水平。并且支持三种分词模式：\r\n（1）精确模式，试图将句子最精确地切开，适合文本分析；\r\n（2）全模式，把句子中所有的可以成词的词语都扫描出来， 速度非常快，但是不能\r\n第3章 抑郁情","length":45,"originalChars":[4028,4029,4030,4031,4032,4033,4034,4035,4036,4039,4040,4041,4042,4043,4044,4045,4046,4047,4048,4049,4050,4051,4052,4053,4054,4055,4056,4057,4058,4059,4060,4061,4062,4063,4064,4065,4066,4067,4068,4069,4070,4071,4072],"recordIndex":14,"similarChars":[19530,19531,19532,19533,19534,19535,19536,19537,19538,19541,19542,19543,19544,19545,19546,19547,19548,19549,19550,19551,19552,19553,19554,19555,19556,19557,19558,19559,19560,19561,19562,19563,19564,19565,19566,19567,19570,19571,19572,19573,19574,19575,19576]},{"beginPosition":4073,"copyPercent":0.005214699,"hitBeginPosition":1542,"hitLength":153,"hitText":"有三种模式：\r\n①精确模式，用于将句子最精确地切开，适合文本分析；\r\n②全模式，用于将句子中所有的可以成词的词语都扫描出来,速度非常快，但是不能解决歧义；\r\n③搜索引擎模式，在精确模式的基础上，用于对长词再次切分，提高召回率，适合用于搜索引擎分词。\r\n以结巴分词的精确模式为例，将文本“我爱北京天安门”分词","length":80,"originalChars":[4074,4075,4076,4077,4078,4079,4080,4081,4082,4083,4084,4085,4086,4087,4088,4089,4090,4091,4093,4094,4095,4096,4097,4098,4099,4100,4101,4102,4103,4104,4105,4106,4107,4111,4112,4113,4114,4115,4116,4117,4118,4119,4120,4121,4122,4123,4124,4125,4126,4127,4128,4129,4130,4131,4132,4133,4134,4135,4136,4137,4138,4139,4140,4141],"recordIndex":26,"similarChars":[1585,1586,1587,1588,1589,1590,1591,1592,1593,1594,1595,1596,1597,1598,1599,1600,1601,1602,1604,1605,1606,1607,1608,1609,1610,1611,1612,1613,1614,1615,1616,1617,1618,1622,1623,1624,1625,1626,1627,1628,1629,1630,1631,1632,1633,1634,1635,1636,1637,1638,1641,1642,1643,1644,1645,1646,1647,1648,1649,1650,1651,1652,1653,1654]},{"beginPosition":4384,"copyPercent":0.00497026,"hitBeginPosition":280,"hitLength":152,"hitText":"文本中合理的提取领域关键词，对后续的领域识别和检索至关重要。\r\n在现有的技术中，基于TF-IDF（Term Frequency–Inverse Document Frequency，词频–逆向文件频率）的领域关键词提取算法，采用TF-IDF评估领域文本中每个分词对该领域的重要程度，再通过一定的阈值过滤分","length":77,"originalChars":[4391,4392,4393,4394,4395,4396,4397,4398,4399,4400,4401,4403,4404,4405,4406,4407,4408,4409,4410,4411,4413,4414,4415,4416,4417,4418,4419,4421,4422,4423,4424,4425,4426,4427,4428,4430,4431,4432,4433,4434,4435,4436,4437,4438,4439,4441,4442,4445,4446,4447,4448,4449,4450,4451,4454,4455,4456,4457,4458,4459,4460],"recordIndex":21,"similarChars":[322,323,324,325,326,327,328,329,330,331,332,334,335,336,337,338,339,340,341,342,344,345,346,347,348,349,350,352,353,354,355,356,357,358,359,361,362,363,364,365,366,367,368,369,370,371,372,376,377,378,379,380,381,384,385,386,387,388,389,390,391]},{"beginPosition":4461,"copyPercent":0.0029332682,"hitBeginPosition":22152,"hitLength":123,"hitText":"ocument frequency）是一种信息检索和文本挖掘领域的常用加权技术。它是一种统计方法，用以评估一字词对于一个文件集或一个语料库中的其中一份文件的重要程度。\r\n这个方法认为字词的重要性随着它在一个文件中出现的次数成正比增加，但同时会随着","length":44,"originalChars":[4464,4465,4466,4467,4468,4469,4470,4471,4472,4473,4474,4475,4476,4477,4480,4481,4482,4483,4484,4485,4486,4487,4490,4491,4492,4493,4494,4495,4496,4497,4498,4499,4500,4501,4502,4503],"recordIndex":5,"similarChars":[22193,22194,22195,22196,22197,22198,22199,22200,22201,22202,22203,22204,22205,22208,22209,22210,22211,22212,22213,22214,22215,22216,22217,22218,22219,22220,22221,22222,22226,22227,22228,22229,22230,22231,22232,22233]},{"beginPosition":4513,"copyPercent":0.000733317051,"hitBeginPosition":22254,"hitLength":109,"hitText":"个文件中出现的次数成正比增加，但同时会随着它在语料库中出现的频率增加而下降。\r\ntf-idf主要思想是如果某个词在一篇文章中出现的频率高，即tf较高，同时它在其他文章中出现频率较低，即df较低，反过来idf较高，则认为","length":17,"originalChars":[4517,4518,4519,4520,4521,4522,4523,4524,4529],"recordIndex":5,"similarChars":[22310,22311,22312,22313,22314,22315,22316,22317,22322]},{"beginPosition":4993,"copyPercent":0.0009777561,"hitBeginPosition":24916,"hitLength":97,"hitText":"ollobertandWeston将卷积深度信念网应用于自然语言处理的多种任务，包括词性标注，切分，命名实体识别，语义对象识别【1011。ThomasDeselaers等将类似的模型应用于机器翻","length":18,"originalChars":[4993,4994,4996,4997,4998,4999,5002,5003,5004,5005,5007,5008],"recordIndex":27,"similarChars":[24956,24957,24958,24959,24960,24961,24966,24967,24968,24969,24970,24971]},{"beginPosition":5024,"copyPercent":0.00187403243,"hitBeginPosition":31474,"hitLength":105,"hitText":"量的实体。\r\n4。3 评价对象消歧\r\n评价对象消歧问题有点类似指代消解问题。\r\n指代消解是在篇章中确定代词指向哪个名词短语的问题。在自然语言处理领域，指代消解问题目前仍然是一个非常巨大的挑战。在一些语法规范的文","length":29,"originalChars":[5024,5025,5026,5027,5032,5033,5034,5035,5036,5037,5038,5039,5040,5041,5042,5043,5044,5045,5046,5047,5048,5049,5050],"recordIndex":5,"similarChars":[31514,31515,31516,31517,31519,31520,31521,31522,31523,31524,31525,31526,31527,31528,31529,31530,31531,31532,31533,31534,31535,31536,31537]},{"beginPosition":5458,"copyPercent":0.00130367477,"hitBeginPosition":1717,"hitLength":102,"hitText":"和方法。自然语言处理是人工智能中最困难的问题之一。\r\n实现人机间的自然语言通信，意味着要使计算机既能理解自然语言文本的意义，也能以自然语言文本来表达给定的意图、思想等。前者称为自然语言理解，后者称为自然语","length":23,"originalChars":[5458,5459,5460,5461,5462,5463,5466,5467,5468,5469,5470,5471,5474,5478,5479,5480],"recordIndex":29,"similarChars":[1757,1758,1759,1762,1763,1764,1767,1768,1769,1770,1771,1772,1775,1776,1777,1778]},{"beginPosition":5588,"copyPercent":0.0008962764,"hitBeginPosition":1717,"hitLength":102,"hitText":"和方法。自然语言处理是人工智能中最困难的问题之一。\r\n实现人机间的自然语言通信，意味着要使计算机既能理解自然语言文本的意义，也能以自然语言文本来表达给定的意图、思想等。前者称为自然语言理解，后者称为自然语","length":19,"originalChars":[5590,5591,5592,5595,5596,5597,5598,5599,5600,5601,5606],"recordIndex":29,"similarChars":[1762,1763,1764,1767,1768,1769,1770,1771,1772,1775,1778]},{"beginPosition":5653,"copyPercent":0.00244439021,"hitBeginPosition":1835,"hitLength":127,"hitText":"括自然语言理解和自然语言生成两个部分。\r\n无论实现自然语言理解还是自然语言生成，都是十分困难的。从现有的理论和技术看，通用的、高质量的自然语言处理系统仍然是较长期的努力目标，但是针对一定应用，具有相当自然语言处理能力的实用系统已经出现，有些已商品化，甚至","length":74,"originalChars":[5653,5654,5655,5656,5657,5658,5659,5662,5681,5685,5686,5687,5688,5689,5690,5691,5692,5693,5694,5708,5712,5713,5714,5715,5716,5717,5718,5719,5720,5721],"recordIndex":29,"similarChars":[1875,1876,1877,1878,1879,1880,1881,1882,1901,1902,1903,1904,1905,1906,1907,1908,1909,1916,1921,1901,1902,1903,1904,1905,1906,1907,1908,1909,1916,1921]},{"beginPosition":6778,"copyPercent":0.008555366,"hitBeginPosition":5881,"hitLength":189,"hitText":"基本概念\r\n语料：通常，在统计自然语言处理中实际上不可能观测到大规模的语言实例。所以，人们简单地用文本作为替代，并把文本中的上下文关系作为现实世界中语言的上下文关系的替代品。我们把一个文本集合称为语料库（Corpus），当有几个这样的文本集合的时候，我们称之为语料库集合（Corpora） [7]。在实际应用中，词频统计都是在某一范围的语料库里进行的。倘若对所有的语料进行词频统","length":105,"originalChars":[6778,6779,6780,6781,6782,6783,6784,6785,6786,6787,6788,6789,6790,6791,6792,6793,6794,6795,6796,6797,6798,6799,6800,6801,6802,6803,6804,6805,6806,6807,6808,6809,6810,6811,6812,6813,6814,6815,6816,6817,6818,6819,6820,6821,6822,6823,6824,6825,6826,6827,6828,6829,6830,6831,6832,6833,6834,6835,6836,6837,6838,6839,6840,6841,6842,6843,6844,6845,6846,6847,6848,6849,6850,6851,6852,6853,6854,6855,6856,6857,6858,6859,6860,6861,6862,6863,6864,6865,6866,6867,6868,6869,6870,6871,6872,6873,6874,6875,6876,6877,6878,6879,6880,6881,6882],"recordIndex":11,"similarChars":[5921,5922,5923,5924,5925,5926,5927,5928,5929,5930,5931,5932,5933,5934,5935,5936,5937,5938,5939,5940,5941,5942,5943,5944,5945,5946,5947,5948,5949,5950,5951,5952,5953,5954,5955,5956,5957,5958,5959,5960,5961,5962,5963,5964,5965,5966,5967,5968,5969,5970,5971,5972,5973,5974,5975,5976,5977,5978,5979,5980,5981,5982,5983,5984,5985,5986,5987,5988,5989,5990,5991,5992,5993,5994,5995,5996,5997,5998,5999,6000,6001,6002,6003,6004,6005,6006,6007,6008,6009,6010,6011,6012,6013,6014,6015,6016,6017,6018,6019,6020,6021,6022,6023,6024,6029]},{"beginPosition":7290,"copyPercent":0.008392406,"hitBeginPosition":33532,"hitLength":192,"hitText":"，下面介绍几个合适的Cfaroline开发工具。\r\n(1)Ultraedit\r\nU1traEdit是一套功能强大的文本编辑器，可以编辑文本、十六进制、ASCII码，完全可以取代记事本（如果电脑配置足够强大），内建英文单字检查、C++及VB指令突显，可同时编辑多个文件，而且即使开启很大的文件速度也不会慢。软件附有HTML标签颜色显示、搜寻替换以及无限制的还原功能，一般用其来修改EXE","length":117,"originalChars":[7300,7301,7302,7303,7304,7305,7306,7307,7308,7309,7310,7311,7312,7313,7314,7315,7316,7317,7318,7319,7320,7321,7322,7323,7324,7325,7326,7327,7328,7329,7330,7332,7333,7334,7335,7336,7337,7338,7339,7340,7341,7342,7343,7344,7345,7346,7347,7348,7349,7350,7351,7352,7353,7354,7355,7356,7357,7358,7359,7360,7361,7362,7363,7364,7365,7366,7367,7369,7371,7372,7374,7375,7376,7377,7378,7379,7380,7381,7382,7383,7384,7385,7386,7387,7388,7389,7390,7391,7392,7393,7394,7395,7396,7397,7398,7399,7400,7401,7402,7403,7404,7405,7406],"recordIndex":23,"similarChars":[33581,33582,33583,33584,33585,33586,33587,33588,33589,33590,33591,33592,33593,33594,33595,33596,33597,33598,33599,33600,33601,33602,33603,33604,33605,33606,33607,33608,33609,33610,33611,33612,33613,33614,33615,33616,33617,33618,33619,33620,33621,33622,33623,33624,33625,33626,33627,33628,33629,33630,33631,33632,33633,33634,33635,33636,33637,33638,33639,33640,33641,33642,33643,33644,33645,33646,33647,33648,33649,33650,33651,33652,33653,33654,33655,33656,33657,33658,33659,33660,33661,33662,33663,33664,33665,33666,33667,33668,33669,33670,33671,33672,33673,33674,33675,33676,33677,33678,33679,33680,33681,33682,33683]},{"beginPosition":7409,"copyPercent":0.00374806486,"hitBeginPosition":5245,"hitLength":154,"hitText":"元素库\r\n接着可以利用正则语义对这些像元素进行组织，赋予他们描述物体特征的能力。正则表达式，又称规则表达式，计算机科学的一个概念。正则表通常被用来检索、替换那些符合某个模式(规则)的文本。正则表达式是对字符串操作的一种逻辑公式，就是用事先定义好的一些特定字符、及这些特定字符的组、合，组成一个“规则字符串”，","length":67,"originalChars":[7409,7410,7411,7412,7413,7414,7415,7416,7417,7418,7419,7420,7421,7422,7424,7425,7426,7427,7428,7429,7430,7431,7432,7433,7434,7435,7436,7437,7438,7439,7440,7441,7442,7443,7444,7445,7446,7451,7468,7469,7470,7471,7472,7473,7474,7475],"recordIndex":25,"similarChars":[5285,5286,5287,5288,5289,5290,5291,5292,5293,5294,5295,5296,5297,5298,5299,5300,5301,5302,5303,5304,5305,5306,5307,5308,5309,5339,5340,5341,5342,5343,5344,5346,5347,5348,5351,5352,5353,5358,5313,5314,5315,5316,5317,5318,5319,5320]},{"beginPosition":7476,"copyPercent":0.0014666341,"hitBeginPosition":4435,"hitLength":99,"hitText":" 数据抓取的正则表达式正则表达式是计算机科学的一个概念。 正则表通常被用来检索、替换那些符合某个模式（规则） 的文本。 对于信息的抓取，原理是对相应的 HTML 源代码采用正则表达式去检索所需信息。","length":18,"originalChars":[7476,7477,7478,7479,7480,7481,7482,7483,7484,7485,7486,7487,7488,7489,7490,7491,7492,7493],"recordIndex":19,"similarChars":[4475,4476,4477,4478,4479,4480,4481,4482,4483,4484,4485,4486,4487,4488,4490,4491,4492,4493]},{"beginPosition":7720,"copyPercent":0.0009777561,"hitBeginPosition":7085,"hitLength":102,"hitText":"ash函数的运算是并行的，时问开销为1。\r\n5 基于有限自动机的通配报文分类\r\n算法正则表达式是对字符串操作的一种逻辑公式，是用事先定义好的一些特定字符及这些特定字符的组合，组成一个规则字符串，用这个规则","length":21,"originalChars":[7722,7723,7724,7725,7726,7728,7730,7732,7733,7734,7735,7740],"recordIndex":7,"similarChars":[7127,7128,7129,7130,7131,7132,7134,7135,7136,7139,7140,7146]},{"beginPosition":7761,"copyPercent":0.00105923577,"hitBeginPosition":1496,"hitLength":97,"hitText":"，组成一个“规则字符串”，这个“规则字符串”用来表达对字符串的一种过滤逻辑。\r\n给定一个正则表达式和另一个字符串，我们可以达到如下的目的：\r\n1. 给定的字符串是否符合正则表达式的过滤逻辑（称作","length":21,"originalChars":[7761,7762,7763,7764,7765,7766,7767,7773,7774,7775,7777,7778,7781],"recordIndex":15,"similarChars":[1538,1539,1540,1541,1542,1543,1544,1547,1548,1549,1550,1551,1552]},{"beginPosition":7806,"copyPercent":0.00162959343,"hitBeginPosition":7085,"hitLength":102,"hitText":"ash函数的运算是并行的，时问开销为1。\r\n5 基于有限自动机的通配报文分类\r\n算法正则表达式是对字符串操作的一种逻辑公式，是用事先定义好的一些特定字符及这些特定字符的组合，组成一个规则字符串，用这个规则","length":24,"originalChars":[7806,7807,7808,7809,7810,7815,7816,7817,7818,7819,7820,7821,7822,7823,7824,7825,7826,7827,7828,7829],"recordIndex":7,"similarChars":[7127,7128,7129,7130,7131,7132,7133,7134,7135,7136,7137,7138,7139,7140,7141,7142,7143,7144,7145,7146]},{"beginPosition":7830,"copyPercent":0.00130367477,"hitBeginPosition":7437,"hitLength":104,"hitText":"具体的字符，如表达式／[A—z]／将会与A—z范围内任何一个大写字母相匹配。\r\n构造正则表达式的方法和创建数学表达式的方法一样，也就是用多种元字符与操作符将小的表达式结合在一起来创建更大的表达式。正则表达式的","length":20,"originalChars":[7831,7832,7833,7834,7835,7836,7837,7838,7839,7840,7841,7842,7843,7844,7845,7849],"recordIndex":24,"similarChars":[7477,7478,7481,7482,7483,7484,7485,7486,7487,7488,7489,7490,7491,7496,7497,7500]},{"beginPosition":7866,"copyPercent":0.00236291043,"hitBeginPosition":10003,"hitLength":119,"hitText":"则表达式是对字符串操作和模式匹配的一种逻辑表达公式，实现对字符串的一种过滤逻辑。就是用事先约定好的一些特定字符、及这些特定字符的组合，组成一个“规则字符串”，例如，“\\d”匹配0到9数字，“\\w”匹配单词字符。\r\n(2)XPath\r\nXP","length":56,"originalChars":[7874,7875,7878,7879,7880,7881,7882,7883,7884,7885,7901,7902,7903,7904,7905,7906,7907,7908,7909,7910,7911,7912,7913,7914,7916,7917,7918,7919,7920],"recordIndex":2,"similarChars":[10046,10047,10050,10051,10052,10053,10054,10055,10056,10057,10060,10061,10062,10063,10064,10065,10066,10067,10068,10069,10070,10071,10072,10073,10075,10076,10077,10078,10079]},{"beginPosition":9049,"copyPercent":0.00105923577,"hitBeginPosition":4012,"hitLength":99,"hitText":"汉双语时文构成,采样年代为2000-2001年,共计54万词;该库实现句级对齐,并对英汉语文本都进行了分词和词性标注.台湾辅仁大学初步建立了范本财经英日汉平行语料库,收集语料约10万句对.最近,香港","length":18,"originalChars":[9051,9055,9056,9057,9058,9059,9060,9061,9062,9063,9064,9065,9066],"recordIndex":1,"similarChars":[4053,4057,4058,4060,4061,4063,4064,4065,4066,4067,4068,4069,4070]},{"beginPosition":9118,"copyPercent":0.004236943,"hitBeginPosition":23808,"hitLength":132,"hitText":"要生成DAG就必须有语料库的辅助了，结巴分词自带了一个叫做dict．仅t的词典，里面有2万多条词，包含了词条出现的次数（这个次数是于作者自己基于人民日报语料等资源训练得出来的）和词性。语料库的有3列，第一列是词，第二列是词频第三列是词性。在程序中初始化语料库的动作","length":52,"originalChars":[9118,9119,9120,9121,9122,9123,9124,9125,9126,9127,9128,9129,9130,9131,9132,9133,9134,9135,9136,9137,9138,9139,9140,9141,9142,9143,9144,9145,9146,9147,9148,9149,9150,9151,9152,9153,9154,9155,9156,9157,9158,9159,9160,9161,9162,9163,9164,9165,9166,9167,9168,9169],"recordIndex":8,"similarChars":[23848,23849,23850,23851,23852,23853,23854,23855,23856,23857,23858,23859,23860,23861,23862,23863,23864,23865,23866,23867,23868,23869,23870,23871,23872,23873,23874,23875,23876,23877,23878,23879,23880,23881,23882,23883,23884,23885,23886,23887,23888,23889,23890,23891,23892,23893,23894,23895,23896,23897,23898,23899]},{"beginPosition":9182,"copyPercent":0.00334066642,"hitBeginPosition":1282,"hitLength":121,"hitText":"译，预编译包括对新闻信息进行分词和去除停用词；\r\n分词，采用Jieba分词系统，基于前缀词典实现高效的词图扫描，生成句子中汉字所有可能成词情况所构成的有向无环图，采用了动态规划查找最大概率路径，找出基于词频的最大切分组合；\r\n去除停用词，定义","length":49,"originalChars":[9185,9186,9187,9188,9189,9190,9191,9192,9193,9194,9195,9196,9197,9198,9199,9200,9201,9202,9203,9204,9205,9206,9207,9208,9209,9210,9211,9212,9213,9214,9215,9216,9217,9218,9219,9220,9221,9222,9223,9224,9230],"recordIndex":17,"similarChars":[1322,1323,1324,1325,1326,1327,1328,1329,1330,1331,1332,1333,1334,1335,1336,1337,1338,1339,1340,1341,1342,1343,1344,1345,1346,1347,1348,1349,1350,1351,1352,1353,1354,1355,1356,1357,1358,1359,1360,1361,1362]},{"beginPosition":9313,"copyPercent":0.00350362575,"hitBeginPosition":23808,"hitLength":132,"hitText":"要生成DAG就必须有语料库的辅助了，结巴分词自带了一个叫做dict．仅t的词典，里面有2万多条词，包含了词条出现的次数（这个次数是于作者自己基于人民日报语料等资源训练得出来的）和词性。语料库的有3列，第一列是词，第二列是词频第三列是词性。在程序中初始化语料库的动作","length":45,"originalChars":[9314,9315,9316,9317,9318,9319,9320,9321,9322,9324,9325,9326,9327,9328,9329,9330,9331,9332,9333,9334,9335,9336,9337,9338,9339,9340,9341,9342,9343,9344,9345,9346,9347,9348,9349,9350,9351,9352,9353,9354,9355,9356,9357],"recordIndex":8,"similarChars":[23848,23849,23850,23851,23852,23853,23854,23855,23856,23857,23858,23859,23860,23861,23862,23863,23864,23865,23866,23867,23874,23875,23878,23879,23880,23881,23882,23883,23884,23885,23886,23887,23888,23889,23890,23891,23892,23893,23895,23896,23897,23898,23899]},{"beginPosition":9481,"copyPercent":0.00391102443,"hitBeginPosition":24008,"hitLength":143,"hitText":"的语料库数据结构用marshal序列化，然后存放在系统的临时目录。对待分词句子，根据dict．txt生成的trie树，生成DAG，通俗的说，就是对待分词句子根据给定的词典进行查词典操作，生成几种可能的句子。切分采用动态规划查找最大概率路径，找出基于词频的最大切分组合，最后使用yield","length":67,"originalChars":[9482,9483,9492,9493,9494,9495,9496,9497,9498,9499,9500,9502,9503,9504,9505,9506,9507,9509,9510,9511,9513,9515,9516,9518,9519,9520,9521,9522,9523,9524,9525,9526,9527,9528,9529,9530,9531,9532,9533,9534,9536,9537,9540,9541,9542,9543,9544,9547],"recordIndex":8,"similarChars":[24048,24049,24058,24059,24060,24061,24062,24063,24064,24065,24066,24067,24068,24069,24070,24071,24072,24073,24074,24075,24077,24078,24079,24084,24085,24086,24087,24088,24089,24090,24091,24092,24093,24094,24095,24096,24097,24098,24099,24100,24101,24102,24105,24106,24107,24108,24109,24110]},{"beginPosition":9548,"copyPercent":0.003992504,"hitBeginPosition":21575,"hitLength":148,"hitText":"此有向无环图未必能转化成树，但任何有向树均为有向无环图），由此形成切分词图。\r\n形成有向无环图的具体做法是记录句子中某个词的开始位置，从 0 到 N-1（N为句子的长度），每个开始位置作为字典的键，值是一个list，其中保存了可能的词语的结束位置。通过查字典得到词，开始位置加上词语的长度就得到结","length":70,"originalChars":[9557,9558,9559,9560,9561,9562,9563,9565,9566,9567,9568,9569,9570,9571,9572,9573,9575,9576,9577,9579,9580,9581,9583,9584,9585,9586,9587,9588,9589,9590,9592,9593,9594,9595,9596,9597,9598,9599,9600,9601,9602,9603,9604,9611,9613,9614,9615,9616,9617],"recordIndex":30,"similarChars":[21622,21627,21628,21629,21630,21631,21632,21633,21634,21635,21636,21637,21638,21639,21640,21641,21642,21644,21646,21649,21650,21651,21653,21654,21655,21656,21657,21658,21659,21660,21661,21662,21663,21664,21665,21666,21667,21668,21669,21670,21671,21672,21673,21675,21678,21679,21680,21681,21682]},{"beginPosition":9618,"copyPercent":0.00162959343,"hitBeginPosition":27413,"hitLength":106,"hitText":"，字典的长度为句子的字数，key值为字的位置，每个字典的value值为一个列表，列表中存储着可能的词语的结束位置（通过查字典得到词，开始位置加上词语的长度得到结束位置），key值与该位置路径代表了一个词，例如0：","length":26,"originalChars":[9624,9625,9626,9627,9628,9629,9630,9631,9632,9633,9634,9635,9636,9637,9638,9639,9640,9641,9642,9643],"recordIndex":13,"similarChars":[27459,27460,27461,27462,27463,27464,27465,27466,27467,27468,27469,27470,27471,27472,27473,27474,27475,27476,27477,27478]},{"beginPosition":9644,"copyPercent":0.00130367477,"hitBeginPosition":21668,"hitLength":99,"hitText":"为字典的键，值是一个list，其中保存了可能的词语的结束位置。通过查字典得到词，开始位置加上词语的长度就得到结束位置。例如：｛0：[1，2，3]｝ 这样一个简单的有向无环图，就是表示0位置开始，在1","length":19,"originalChars":[9645,9646,9647,9648,9650,9651,9652,9653,9654,9655,9656,9657,9658,9659,9660,9662],"recordIndex":30,"similarChars":[21708,21709,21710,21711,21714,21715,21716,21717,21718,21720,21721,21722,21723,21724,21725,21726]},{"beginPosition":9665,"copyPercent":0.002199951,"hitBeginPosition":3708,"hitLength":108,"hitText":"现高效的词图扫描，生成句子中汉字所有可能成词情况所构成的有向无环图 （DAG），动态规划查找最大概率路径， 找出基于词频的最大切分组合。jie-ba 可以添加自定义词库或者删除“无效词” （stop-words）。“","length":31,"originalChars":[9668,9669,9670,9671,9672,9673,9674,9675,9676,9677,9678,9679,9680,9682,9683,9684,9685,9686,9687,9688,9689,9690,9691,9692,9693,9694,9695],"recordIndex":31,"similarChars":[3748,3749,3750,3751,3752,3753,3754,3755,3756,3757,3758,3759,3760,3762,3763,3764,3765,3766,3767,3768,3769,3770,3771,3772,3773,3774,3775]},{"beginPosition":9696,"copyPercent":0.00138515444,"hitBeginPosition":22756,"hitLength":98,"hitText":"满足用动态规划求解所要求的最优子结构性质和无后效性。具体的实现步骤如下：\r\n1、先查找待分词句子中已经切分好的词语，并查找该词语出现的频率；如果没有这个词，就把词典中出现频率最小的那个词语的频率作","length":32,"originalChars":[9698,9699,9700,9701,9702,9703,9704,9705,9706,9707,9708,9709,9710,9711,9712,9713,9727],"recordIndex":30,"similarChars":[22797,22798,22799,22800,22801,22802,22803,22804,22805,22806,22807,22808,22809,22810,22811,22812,22813]},{"beginPosition":9728,"copyPercent":0.002199951,"hitBeginPosition":8153,"hitLength":122,"hitText":"进行动态规划查找，找出基于词频的最大概率切分组合。对于上述步骤中己切分好的词语，依照词典查找该词语出现的频率（次数／总数）。如果没有该词（既然是依照词典进行切分的，理应有该词），就将该词的频率定义为词典中出现频率最小的某词语的频率，然后对句子从","length":39,"originalChars":[9730,9731,9732,9733,9734,9735,9736,9737,9738,9739,9740,9741,9742,9744,9745,9746,9748,9749,9750,9751,9752,9753,9754,9757,9758,9762,9766],"recordIndex":28,"similarChars":[8197,8198,8199,8200,8201,8202,8203,8204,8205,8206,8207,8208,8209,8211,8212,8213,8215,8216,8217,8218,8219,8220,8221,8224,8227,8228,8234]},{"beginPosition":9767,"copyPercent":0.002199951,"hitBeginPosition":22794,"hitLength":107,"hitText":"1、先查找待分词句子中已经切分好的词语，并查找该词语出现的频率；如果没有这个词，就把词典中出现频率最小的那个词语的频率作为该词的频率。\r\n2、根据动态规划查找最大概率路径的方法，对句子从左往右计算最大概率。在实际查","length":27,"originalChars":[9767,9768,9769,9770,9771,9772,9773,9774,9775,9776,9777,9778,9779,9780,9781,9782,9783,9784,9785,9786,9787,9788,9789,9790,9791,9792,9793],"recordIndex":30,"similarChars":[22834,22835,22836,22837,22838,22839,22840,22841,22842,22843,22844,22845,22846,22847,22848,22849,22850,22851,22852,22853,22854,22855,22856,22857,22858,22859,22860]},{"beginPosition":9794,"copyPercent":0.00285178842,"hitBeginPosition":1572,"hitLength":127,"hitText":"值为 value，里面存放了可能的词语结束位置，并将这些成词情况构成有向无环图，根据动态规划查找最大概率路径的方法，水利文本处理对句子采用从右往左的方式计算反向计算最大概率，由于汉语句子常常将重心落在后面，因此反向计算比正向计算的正确率更高。最后由最大概","length":61,"originalChars":[9796,9797,9798,9799,9800,9801,9802,9803,9804,9805,9806,9807,9808,9809,9810,9811,9812,9813,9814,9815,9816,9817,9818,9819,9820,9821,9822,9823,9824,9825,9826,9827,9828,9841,9854],"recordIndex":4,"similarChars":[1612,1613,1614,1615,1616,1617,1618,1619,1620,1621,1622,1623,1624,1625,1626,1627,1628,1629,1636,1637,1638,1641,1642,1643,1644,1645,1648,1649,1650,1651,1654,1655,1656,1657,1658]},{"beginPosition":9855,"copyPercent":0.0008962764,"hitBeginPosition":10777,"hitLength":100,"hitText":"（某些资料中可能是从左往右计算，反向是由于，由汉语构成的句子的重心常常落在后面，即落在右边，而且通常情况下，形容词太多，句子后面的才为主干，所以，反向计算，正确率要高于正向计算，类似于逆向的最大匹配）","length":23,"originalChars":[9858,9859,9860,9861,9862,9863,9864,9865,9866,9867,9868],"recordIndex":32,"similarChars":[10822,10825,10826,10827,10828,10829,10831,10832,10833,10834,10835]},{"beginPosition":9970,"copyPercent":0.003177707,"hitBeginPosition":16826,"hitLength":132,"hitText":"小的词语的词频作为该词的词频，然后根据最大概率路径方法，对句子反向计算最大概率，最后得到最大概率路径，得到最大概率的切分组合\r\nc） 对于未登录词，采用了基于汉字成词能力的HMM模型，使用了Viterbi算法[39]。\r\n基于作者采用的HM M 模型了， 中文词汇","length":58,"originalChars":[9970,9971,9972,9973,9974,9975,9976,9977,9978,9979,9980,9981,9982,9983,9984,9985,9986,9987,9988,9989,9990,9991,9998,9999,10000,10001,10002,10003,10004,10005,10006,10007,10008,10009,10011,10012,10013,10015,10016],"recordIndex":12,"similarChars":[16866,16867,16868,16869,16870,16871,16872,16873,16874,16875,16876,16877,16878,16879,16880,16881,16882,16883,16884,16885,16886,16887,16900,16901,16902,16903,16904,16905,16906,16907,16908,16909,16910,16911,16912,16913,16914,16915,16916]},{"beginPosition":10028,"copyPercent":0.00350362575,"hitBeginPosition":18337,"hitLength":139,"hitText":"组合。3）对于DAG中不记录在词典dict。txt中词，使用HMM模型进行分词。HMM模型是对中文词汇按照BEMS四个状态进行标记，B为开始位置，E为结束位置，M 为中间位置，S 为单独成词的位置。即（B，E，M，S）四种状态可对任何中文词语进行标注。如 “虚假评论”，则可标注","length":82,"originalChars":[10030,10031,10032,10033,10034,10036,10037,10038,10039,10040,10041,10042,10043,10044,10045,10046,10047,10048,10049,10051,10052,10053,10055,10057,10058,10064,10065,10066,10068,10073,10074,10075,10076,10077,10093,10102,10103,10104,10105,10106,10107,10108,10109],"recordIndex":9,"similarChars":[18377,18378,18379,18380,18381,18384,18385,18386,18387,18388,18389,18390,18391,18392,18393,18394,18395,18396,18397,18400,18401,18402,18403,18405,18406,18407,18408,18409,18410,18412,18413,18414,18415,18416,18425,18428,18429,18430,18431,18432,18433,18434,18435]},{"beginPosition":10110,"copyPercent":0.00138515444,"hitBeginPosition":17022,"hitLength":99,"hitText":"le， 单独成词的位置， 没有前， 也没有后。 也就是说， 他采用了状态为（B，E，M，S）这四种状态来标记中文词语， 比如武汉可以标注为 BE， 即 武/B 汉/E， 表示武是开始位置， 汉是结束","length":29,"originalChars":[10120,10122,10124,10125,10126,10127,10128,10129,10130,10131,10132,10133,10134,10135,10136,10137,10138],"recordIndex":12,"similarChars":[17062,17063,17064,17066,17067,17068,17069,17070,17071,17072,17073,17074,17075,17076,17077,17078,17079]},{"beginPosition":10139,"copyPercent":0.00309622753,"hitBeginPosition":23683,"hitLength":143,"hitText":"le，单独成词的位置。我们采用状态为（B，E，M，S）这四种状态来标记中文词语。例如：“研究”可以标注为BE， 即研/B 究/E， 表示“研”是开始位置，“究”是结束位置， “路由算法”可以标注为BMME， 就是开始、中间、中间、结束。\r\n基于 HMM 模型，本文对大量字典词语进行了分","length":60,"originalChars":[10144,10145,10146,10147,10148,10149,10150,10151,10152,10154,10155,10157,10158,10159,10161,10162,10164,10165,10166,10167,10168,10169,10172,10173,10174,10175,10176,10177,10183,10184,10185,10186,10187,10188,10189,10190,10191,10192],"recordIndex":30,"similarChars":[23730,23731,23732,23733,23734,23735,23736,23737,23739,23741,23742,23745,23746,23747,23749,23750,23754,23755,23756,23757,23758,23759,23763,23764,23765,23766,23767,23768,23776,23777,23778,23779,23780,23781,23782,23783,23784,23785]},{"beginPosition":10199,"copyPercent":0.000733317051,"hitBeginPosition":18442,"hitLength":93,"hitText":"M，S）四种状态可对任何中文词语进行标注。如 “虚假评论”，则可标注为BMME，即开始，中间，中间，结束。语料训练的同时要统计位置到单字的发射概率、位置转换概率以及词语到某种状态开头的概","length":12,"originalChars":[10200,10201,10202,10204,10205,10206,10208,10209,10210],"recordIndex":9,"similarChars":[18485,18486,18487,18488,18489,18490,18492,18493,18494]},{"beginPosition":11459,"copyPercent":0.0009777561,"hitBeginPosition":24916,"hitLength":97,"hitText":"ollobertandWeston将卷积深度信念网应用于自然语言处理的多种任务，包括词性标注，切分，命名实体识别，语义对象识别【1011。ThomasDeselaers等将类似的模型应用于机器翻","length":18,"originalChars":[11459,11460,11462,11463,11464,11465,11468,11469,11470,11471,11473,11474],"recordIndex":27,"similarChars":[24956,24957,24958,24959,24960,24961,24966,24967,24968,24969,24970,24971]},{"beginPosition":11490,"copyPercent":0.00187403243,"hitBeginPosition":31474,"hitLength":105,"hitText":"量的实体。\r\n4。3 评价对象消歧\r\n评价对象消歧问题有点类似指代消解问题。\r\n指代消解是在篇章中确定代词指向哪个名词短语的问题。在自然语言处理领域，指代消解问题目前仍然是一个非常巨大的挑战。在一些语法规范的文","length":29,"originalChars":[11490,11491,11492,11493,11498,11499,11500,11501,11502,11503,11504,11505,11506,11507,11508,11509,11510,11511,11512,11513,11514,11515,11516],"recordIndex":5,"similarChars":[31514,31515,31516,31517,31519,31520,31521,31522,31523,31524,31525,31526,31527,31528,31529,31530,31531,31532,31533,31534,31535,31536,31537]},{"beginPosition":12159,"copyPercent":0.00130367477,"hitBeginPosition":4058,"hitLength":98,"hitText":"。与此同时，在移动互联网的促成之下，“互联网+交通”利用移动互联网、大数据开发、云计算及物联网等新兴的信息通信技术，将传统的交通运输业与互联网新兴产业完美的进行融合，形成了“线上资源分配合理，线下","length":18,"originalChars":[12159,12160,12161,12162,12163,12164,12165,12166,12167,12168,12169,12170,12171,12172,12173,12176],"recordIndex":20,"similarChars":[4098,4099,4100,4101,4102,4103,4104,4105,4108,4109,4110,4111,4112,4113,4114,4115]},{"beginPosition":12232,"copyPercent":0.00741465,"hitBeginPosition":0,"hitLength":138,"hitText":"文学家主观虚构的文学世界，来源于现实，反映了现实世界，因此每个时期的作品或多或少都有着那个时期特有的特点。在文学作品中，人物的优缺点会被放大，这是作者为了将对现实世界的想法赋予到作品中的人物身上。而反映了文学家主观建构的感知人际网络与客观现实人际网络，是否存在一定的联系？能否","length":116,"originalChars":[12250,12251,12252,12253,12254,12255,12256,12257,12258,12259,12260,12261,12262,12266,12267,12268,12269,12270,12271,12274,12275,12277,12278,12279,12280,12281,12282,12283,12284,12285,12286,12287,12288,12289,12290,12291,12292,12293,12294,12295,12296,12297,12298,12299,12300,12301,12302,12303,12304,12305,12306,12307,12308,12309,12310,12311,12312,12313,12314,12315,12316,12317,12318,12319,12320,12321,12322,12323,12324,12325,12326,12327,12328,12329,12330,12331,12332,12333,12334,12335,12336,12337,12338,12339,12340,12341,12342,12343,12344,12345,12346],"recordIndex":16,"similarChars":[0,1,2,3,4,5,6,7,8,9,10,11,12,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96]}],"publishCitedCopyPercent":0,"quickSearchTime":0,"recordHitInfoList":[{"copyPercent":0.00105923577,"recordIndex":1},{"copyPercent":0.00236291043,"recordIndex":2},{"copyPercent":0.0206958372,"recordIndex":3},{"copyPercent":0.00285178842,"recordIndex":4},{"copyPercent":0.008555366,"recordIndex":5},{"copyPercent":0.02933268,"recordIndex":6},{"copyPercent":0.00260734954,"recordIndex":7},{"copyPercent":0.0116515933,"recordIndex":8},{"copyPercent":0.004236943,"recordIndex":9},{"copyPercent":0.0014666341,"recordIndex":10},{"copyPercent":0.008555366,"recordIndex":11},{"copyPercent":0.00456286175,"recordIndex":12},{"copyPercent":0.00162959343,"recordIndex":13},{"copyPercent":0.00350362575,"recordIndex":14},{"copyPercent":0.00105923577,"recordIndex":15},{"copyPercent":0.0148293,"recordIndex":16},{"copyPercent":0.00334066642,"recordIndex":17},{"copyPercent":0.00162959343,"recordIndex":18},{"copyPercent":0.0014666341,"recordIndex":19},{"copyPercent":0.00260734954,"recordIndex":20},{"copyPercent":0.00497026,"recordIndex":21},{"copyPercent":0.00105923577,"recordIndex":22},{"copyPercent":0.008392406,"recordIndex":23},{"copyPercent":0.00130367477,"recordIndex":24},{"copyPercent":0.00374806486,"recordIndex":25},{"copyPercent":0.005214699,"recordIndex":26},{"copyPercent":0.00195551221,"recordIndex":27},{"copyPercent":0.002199951,"recordIndex":28},{"copyPercent":0.009288683,"recordIndex":29},{"copyPercent":0.0119775115,"recordIndex":30},{"copyPercent":0.002199951,"recordIndex":31},{"copyPercent":0.0008962764,"recordIndex":32}],"recordList":[{"articleId":"","conference":"","creator":["发阿发"],"DBID":"c7892ed3-4154-445d-855d-4c3c0d56e9a1","dataBaseInfoMap":[],"date":"\/Date(1546272000000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":12675,"fulltextLength":12273,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":true,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":116,"schoolFirst":"","source":"无","title":["无"],"volumn":"","uDocumentID":null},{"articleId":"12483571","conference":"","creator":["戴光荣"],"DBID":"网文","dataBaseInfoMap":[{"key":"有无版权","value":"1"},{"key":"zz_xm","value":"戴光荣"},{"key":"qk_name","value":"科学网"},{"key":"CheckinID","value":"12483571"},{"key":"来源","value":"http://blog.sciencenet.cn/blog-331736-741028.html"},{"key":"收稿日期","value":"2013-11-12 08:40:00.0"},{"key":"F_Title","value":"[转载]王克非教授:中国英汉平行语料库的设计与研制"}],"date":"\/Date(1384185600000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":10620,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"科学网","title":["[转载]王克非教授:中国英汉平行语料库的设计与研制"],"volumn":"","uDocumentID":null},{"articleId":"3870776","conference":"","creator":["陈求兴"],"DBID":"学位","dataBaseInfoMap":[{"key":"有无版权","value":"1"},{"key":"授予学位单位","value":"上海交通大学"},{"key":"出版时间","value":"2016-06-01 00:00:00.0"},{"key":"作者","value":"陈求兴"},{"key":"CheckinID","value":"3870776"},{"key":"导师","value":"姚莉秀"},{"key":"授予学位","value":"硕士"},{"key":"资源类型","value":"学位"},{"key":"正题名","value":"基于爬虫的网络文本挖掘研究与应用"},{"key":"馆藏号","value":"D01183500"},{"key":"专业","value":"控制工程"},{"key":"DOI","value":null}],"date":"\/Date(1464710400000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":34844,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"上海交通大学","title":["基于爬虫的网络文本挖掘研究与应用"],"volumn":"","uDocumentID":null},{"articleId":"18049013","conference":"","creator":["北京邮电大学"],"DBID":"专利","dataBaseInfoMap":[{"key":"date","value":"2015-12-09 00:00:00.0000000"},{"key":"number","value":"201510919129.7"},{"key":"CheckinID","value":"18049013"},{"key":"pname","value":"一种基于von Mises-Fisher概率模型的网页分类方法"},{"key":"type","value":"发明专利"},{"key":"classification","value":"\t\t\t\tG06F17/30(2006.01)\t\t\t  \t\t\t\t\t\t\t\t\t\t\t  "},{"key":"patentee","value":"北京邮电大学  "}],"date":"\/Date(1449590400000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":0,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"无","title":["201510919129.7"],"volumn":"","uDocumentID":null},{"articleId":"72869435","conference":"","creator":["诸葛庆子","张审问"],"DBID":"期刊","dataBaseInfoMap":[{"key":"CreatorSecond","value":"张审问"},{"key":"zz_xm","value":"诸葛庆子%张审问%蔡朝晖%徐华%周琦"},{"key":"CreatorFirst","value":"诸葛庆子"},{"key":"F_Volumn","value":null},{"key":"f_doi","value":"10.19364/j.1674-9405.2018.06.006"},{"key":"有无版权","value":"1"},{"key":"qk_name","value":"水利信息化"},{"key":"CheckinID","value":"72869435"},{"key":"f_issue","value":"6"},{"key":"出版日期","value":"2018-12-28 00:00:00.0"},{"key":"f_year","value":"2018"},{"key":"收稿日期类型","value":"ReceivedDate"},{"key":"资源类型","value":"期刊"},{"key":"f_qcode","value":"slswzdh201806006"},{"key":"zze_xm","value":"ZHUGE Qingzi%ZHANG Shenwen%CAI Zhaohui%XU Hua%ZHOU Qi"},{"key":"qk_engname","value":"Water Resources Informatization"},{"key":"收稿日期","value":"2018-09-29 00:00:00.0"},{"key":"F_Title","value":"基于主题模型的水利信息分类方案设计"},{"key":"F_EngTitle","value":"Design of water conservancy information classification scheme based on theme model"}],"date":"\/Date(1538150400000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":16075,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"水利信息化","title":["基于主题模型的水利信息分类方案设计"],"volumn":"","uDocumentID":null},{"articleId":"478599","conference":"","creator":["王沛"],"DBID":"学位","dataBaseInfoMap":[{"key":"有无版权","value":"1"},{"key":"授予学位单位","value":"哈尔滨工业大学"},{"key":"出版时间","value":"2013-06-01 00:00:00.0"},{"key":"作者","value":"王沛"},{"key":"CheckinID","value":"478599"},{"key":"导师","value":"陈惠鹏"},{"key":"授予学位","value":"硕士"},{"key":"资源类型","value":"学位"},{"key":"正题名","value":"文本倾向性分析中的评价对象抽取与消歧研究"},{"key":"馆藏号","value":"D419418"},{"key":"专业","value":"计算机科学与技术"},{"key":"DOI","value":null}],"date":"\/Date(1370016000000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":0,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"哈尔滨工业大学","title":["文本倾向性分析中的评价对象抽取与消歧研究"],"volumn":"","uDocumentID":null},{"articleId":"70437885","conference":"","creator":["赵京胜","肖娜"],"DBID":"期刊","dataBaseInfoMap":[{"key":"CreatorSecond","value":"肖娜"},{"key":"zz_xm","value":"赵京胜%肖娜%高翔"},{"key":"CreatorFirst","value":"赵京胜"},{"key":"F_Volumn","value":null},{"key":"f_doi","value":"10.3969/j.issn.1672-9528.2018.05.014"},{"key":"有无版权","value":"1"},{"key":"qk_name","value":"信息技术与信息化"},{"key":"CheckinID","value":"70437885"},{"key":"f_issue","value":"5"},{"key":"出版日期","value":"2018-05-28 00:00:00.0"},{"key":"f_year","value":"2018"},{"key":"收稿日期类型","value":"ReceivedDate"},{"key":"资源类型","value":"期刊"},{"key":"f_qcode","value":"shanddz201805025"},{"key":"zze_xm","value":null},{"key":"qk_engname","value":"Information Technology \u0026 Informatization"},{"key":"收稿日期","value":"2018-05-02 00:00:00.0"},{"key":"F_Title","value":"基于自然语言处理的能源领域知识图谱"},{"key":"F_EngTitle","value":null}],"date":"\/Date(1525190400000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":0,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"信息技术与信息化","title":["基于自然语言处理的能源领域知识图谱"],"volumn":"","uDocumentID":null},{"articleId":"54060873","conference":"","creator":["吕昭","李韬"],"DBID":"期刊","dataBaseInfoMap":[{"key":"CreatorSecond","value":"李韬"},{"key":"zz_xm","value":"吕昭%李韬"},{"key":"CreatorFirst","value":"吕昭"},{"key":"F_Volumn","value":"36"},{"key":"f_doi","value":"10.3969/j.issn.1007-130X.2014.05.014"},{"key":"有无版权","value":"1"},{"key":"qk_name","value":"计算机工程与科学"},{"key":"CheckinID","value":"54060873"},{"key":"f_issue","value":"5"},{"key":"出版日期","value":"2014-05-30 00:00:00.0"},{"key":"f_year","value":"2014"},{"key":"收稿日期类型","value":null},{"key":"资源类型","value":"期刊"},{"key":"f_qcode","value":"jsjgcykx201405014"},{"key":"zze_xm","value":"L(U) Zhao%LI Tao"},{"key":"qk_engname","value":"Computer Engineering and Science"},{"key":"收稿日期","value":"2014-05-30 00:00:00.0"},{"key":"F_Title","value":"基于OpenFlow的报文分类算法研究与实现"},{"key":"F_EngTitle","value":"Study and implementation of packet classification algorithms for OpenFlow"}],"date":"\/Date(1401379200000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":12524,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"计算机工程与科学","title":["基于OpenFlow的报文分类算法研究与实现"],"volumn":"","uDocumentID":null},{"articleId":"2969573","conference":"","creator":["段康康"],"DBID":"学位","dataBaseInfoMap":[{"key":"有无版权","value":"1"},{"key":"授予学位单位","value":"北京交通大学"},{"key":"出版时间","value":"2016-06-01 00:00:00.0"},{"key":"作者","value":"段康康"},{"key":"CheckinID","value":"2969573"},{"key":"导师","value":"张红延"},{"key":"授予学位","value":"硕士"},{"key":"资源类型","value":"学位"},{"key":"正题名","value":"基于隐马尔科夫模型的文本分类器的设计与实现"},{"key":"馆藏号","value":"Y3125250"},{"key":"专业","value":"软件工程"},{"key":"DOI","value":null}],"date":"\/Date(1464710400000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":0,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"北京交通大学","title":["基于隐马尔科夫模型的文本分类器的设计与实现"],"volumn":"","uDocumentID":null},{"articleId":"4162029","conference":"","creator":["张胜男"],"DBID":"学位","dataBaseInfoMap":[{"key":"有无版权","value":"1"},{"key":"授予学位单位","value":"重庆大学"},{"key":"出版时间","value":"2018-04-01 00:00:00.0"},{"key":"作者","value":"张胜男"},{"key":"CheckinID","value":"4162029"},{"key":"导师","value":"李华"},{"key":"授予学位","value":"硕士"},{"key":"资源类型","value":"学位"},{"key":"正题名","value":"基于深度学习的虚假评论检测的研究与设计"},{"key":"馆藏号","value":"D01496320"},{"key":"专业","value":"工程(计算机技术)"},{"key":"DOI","value":null}],"date":"\/Date(1522512000000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":51471,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"重庆大学","title":["基于深度学习的虚假评论检测的研究与设计"],"volumn":"","uDocumentID":null},{"articleId":"920244","conference":"","creator":["许晔"],"DBID":"学位","dataBaseInfoMap":[{"key":"有无版权","value":"1"},{"key":"授予学位单位","value":"南开大学"},{"key":"出版时间","value":"2010-05-01 00:00:00.0"},{"key":"作者","value":"许晔"},{"key":"CheckinID","value":"920244"},{"key":"导师","value":"严建援"},{"key":"授予学位","value":"硕士"},{"key":"资源类型","value":"学位"},{"key":"正题名","value":"天津联通公司IT项目需求管理研究"},{"key":"馆藏号","value":"J0015434"},{"key":"专业","value":"工商管理"},{"key":"DOI","value":null}],"date":"\/Date(1272643200000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":43220,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"南开大学","title":["天津联通公司IT项目需求管理研究"],"volumn":"","uDocumentID":null},{"articleId":"655740","conference":"","creator":["杨云峰"],"DBID":"学位","dataBaseInfoMap":[{"key":"有无版权","value":"1"},{"key":"授予学位单位","value":"汕头大学"},{"key":"出版时间","value":"2014-05-30 00:00:00.0"},{"key":"作者","value":"杨云峰"},{"key":"CheckinID","value":"655740"},{"key":"导师","value":"陈钦梧"},{"key":"授予学位","value":"硕士"},{"key":"资源类型","value":"学位"},{"key":"正题名","value":"基于汉字输入的词频统计方法研究"},{"key":"馆藏号","value":"D598049"},{"key":"专业","value":"计算机应用技术"},{"key":"DOI","value":null}],"date":"\/Date(1401379200000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":33079,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"汕头大学","title":["基于汉字输入的词频统计方法研究"],"volumn":"","uDocumentID":null},{"articleId":"788204","conference":"","creator":["王超"],"DBID":"学位","dataBaseInfoMap":[{"key":"有无版权","value":"1"},{"key":"授予学位单位","value":"华中科技大学"},{"key":"出版时间","value":"2015-05-27 00:00:00.0"},{"key":"作者","value":"王超"},{"key":"CheckinID","value":"788204"},{"key":"导师","value":"张征"},{"key":"授予学位","value":"硕士"},{"key":"资源类型","value":"学位"},{"key":"正题名","value":"基于社交关系的职位推荐系统的架构与实现"},{"key":"馆藏号","value":"D731987"},{"key":"专业","value":"系统工程"},{"key":"DOI","value":null}],"date":"\/Date(1432656000000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":27061,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"华中科技大学","title":["基于社交关系的职位推荐系统的架构与实现"],"volumn":"","uDocumentID":null},{"articleId":"2691235","conference":"","creator":["肖斌"],"DBID":"学位","dataBaseInfoMap":[{"key":"有无版权","value":"0"},{"key":"授予学位单位","value":"北京邮电大学"},{"key":"出版时间","value":"2013-11-29 00:00:00.0"},{"key":"作者","value":"肖斌"},{"key":"CheckinID","value":"2691235"},{"key":"导师","value":"蔺志青"},{"key":"授予学位","value":"硕士"},{"key":"资源类型","value":"学位"},{"key":"正题名","value":"网络热点话题实时发现技术研究与实现"},{"key":"馆藏号","value":"Y2724526"},{"key":"专业","value":"电子与通信工程"},{"key":"DOI","value":null}],"date":"\/Date(1385654400000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":40803,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"北京邮电大学","title":["网络热点话题实时发现技术研究与实现"],"volumn":"","uDocumentID":null},{"articleId":"4264938","conference":"","creator":["刘爽"],"DBID":"学位","dataBaseInfoMap":[{"key":"有无版权","value":"1"},{"key":"授予学位单位","value":"曲阜师范大学"},{"key":"出版时间","value":"2018-06-02 00:00:00.0"},{"key":"作者","value":"刘爽"},{"key":"CheckinID","value":"4264938"},{"key":"导师","value":"赵景秀"},{"key":"授予学位","value":"硕士"},{"key":"资源类型","value":"学位"},{"key":"正题名","value":"基于大数据的情绪分析方法研究"},{"key":"馆藏号","value":"D01534030"},{"key":"专业","value":"计算机科学与技术"},{"key":"DOI","value":null}],"date":"\/Date(1527868800000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":27850,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"曲阜师范大学","title":["基于大数据的情绪分析方法研究"],"volumn":"","uDocumentID":null},{"articleId":"14189664","conference":"","creator":["无"],"DBID":"网文","dataBaseInfoMap":[{"key":"有无版权","value":"1"},{"key":"zz_xm","value":""},{"key":"qk_name","value":"百度百科"},{"key":"CheckinID","value":"14189664"},{"key":"来源","value":"http://baike.baidu.com/view/94238.html"},{"key":"收稿日期","value":"1900-01-01 00:00:00.0"},{"key":"F_Title","value":"正则表达式"}],"date":"\/Date(-2209017600000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":18647,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"百度百科","title":["正则表达式"],"volumn":"","uDocumentID":null},{"articleId":"4050453","conference":"","creator":["张荣杰"],"DBID":"学位","dataBaseInfoMap":[{"key":"有无版权","value":"1"},{"key":"授予学位单位","value":"闽南师范大学"},{"key":"出版时间","value":"2018-06-01 00:00:00.0"},{"key":"作者","value":"张荣杰"},{"key":"CheckinID","value":"4050453"},{"key":"导师","value":"赵广平"},{"key":"授予学位","value":"硕士"},{"key":"资源类型","value":"学位"},{"key":"正题名","value":"感知与现实人际关系网络：经典文学作品分析"},{"key":"馆藏号","value":"Y3391871"},{"key":"专业","value":"基础心理学"},{"key":"DOI","value":null}],"date":"\/Date(1527782400000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":0,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"闽南师范大学","title":["感知与现实人际关系网络：经典文学作品分析"],"volumn":"","uDocumentID":null},{"articleId":"17723133","conference":"","creator":["北京工商大学"],"DBID":"专利","dataBaseInfoMap":[{"key":"date","value":"2015-08-17 00:00:00.0000000"},{"key":"number","value":"201510511588.1"},{"key":"CheckinID","value":"17723133"},{"key":"pname","value":"一种股票标准新闻库的构建方法及构建系统"},{"key":"type","value":"发明专利"},{"key":"classification","value":"\t\t\t\tG06F17/30(2006.01)\t\t\t  \t\t\t\t\t\t\t\t\t\t\t  "},{"key":"patentee","value":"北京工商大学  "}],"date":"\/Date(1439740800000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":0,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"无","title":["201510511588.1"],"volumn":"","uDocumentID":null},{"articleId":"72631178","conference":"","creator":["黄妩"],"DBID":"期刊","dataBaseInfoMap":[{"key":"CreatorSecond","value":null},{"key":"zz_xm","value":"黄妩"},{"key":"CreatorFirst","value":"黄妩"},{"key":"F_Volumn","value":null},{"key":"f_doi","value":"10.13939/j.cnki.zgsc.2018.29.142"},{"key":"有无版权","value":"1"},{"key":"qk_name","value":"中国市场"},{"key":"CheckinID","value":"72631178"},{"key":"f_issue","value":"29"},{"key":"出版日期","value":"2018-10-11 00:00:00.0"},{"key":"f_year","value":"2018"},{"key":"收稿日期类型","value":null},{"key":"资源类型","value":"期刊"},{"key":"f_qcode","value":"zhonggshic201829068"},{"key":"zze_xm","value":null},{"key":"qk_engname","value":"China Market Marketing"},{"key":"收稿日期","value":"2018-10-11 00:00:00.0"},{"key":"F_Title","value":"经济转型背景下中小企业市场营销模式创新探析"},{"key":"F_EngTitle","value":null}],"date":"\/Date(1539187200000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":3603,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"中国市场","title":["经济转型背景下中小企业市场营销模式创新探析"],"volumn":"","uDocumentID":null},{"articleId":"69037051","conference":"","creator":["濮文强","曹磊"],"DBID":"期刊","dataBaseInfoMap":[{"key":"CreatorSecond","value":"曹磊"},{"key":"zz_xm","value":"濮文强%曹磊%夏斌"},{"key":"CreatorFirst","value":"濮文强"},{"key":"F_Volumn","value":"36"},{"key":"f_doi","value":"10.19358/j.issn.1674-7720.2017.20.027"},{"key":"有无版权","value":"1"},{"key":"qk_name","value":"微型机与应用"},{"key":"CheckinID","value":"69037051"},{"key":"f_issue","value":"20"},{"key":"出版日期","value":"2017-10-25 00:00:00.0"},{"key":"f_year","value":"2017"},{"key":"收稿日期类型","value":"ReceivedDate"},{"key":"资源类型","value":"期刊"},{"key":"f_qcode","value":"wxjyyy201720028"},{"key":"zze_xm","value":"Pu Wenqiang%Cao Lei%Xia Bin"},{"key":"qk_engname","value":"Microcomputer \u0026 its Applications"},{"key":"收稿日期","value":"2017-03-24 00:00:00.0"},{"key":"F_Title","value":"基于Django框架的关键词排名监控系统设计"},{"key":"F_EngTitle","value":"Design of keyword ranking monitor system based on Django framework"}],"date":"\/Date(1490284800000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":7936,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"微型机与应用","title":["基于Django框架的关键词排名监控系统设计"],"volumn":"","uDocumentID":null},{"articleId":"4251902","conference":"","creator":["刘海燕"],"DBID":"学位","dataBaseInfoMap":[{"key":"有无版权","value":"1"},{"key":"授予学位单位","value":"湖南大学"},{"key":"出版时间","value":"2018-03-19 00:00:00.0"},{"key":"作者","value":"刘海燕"},{"key":"CheckinID","value":"4251902"},{"key":"导师","value":"胡小娟;孙斌锋"},{"key":"授予学位","value":"硕士"},{"key":"资源类型","value":"学位"},{"key":"正题名","value":"国内共享单车同质化问题研究"},{"key":"馆藏号","value":"D01500780"},{"key":"专业","value":"国际商务"},{"key":"DOI","value":null}],"date":"\/Date(1521388800000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":0,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"湖南大学","title":["国内共享单车同质化问题研究"],"volumn":"","uDocumentID":null},{"articleId":"16538848","conference":"","creator":["北京百度网讯科技有限公司"],"DBID":"专利","dataBaseInfoMap":[{"key":"date","value":"2014-03-17 00:00:00.0000000"},{"key":"number","value":"201410101751.2"},{"key":"CheckinID","value":"16538848"},{"key":"pname","value":"一种提取领域关键词的方法及装置"},{"key":"type","value":"发明专利"},{"key":"classification","value":"\t\t\t\tG06F17/30(2006.01)\t\t\t  "},{"key":"patentee","value":"北京百度网讯科技有限公司  "}],"date":"\/Date(1394985600000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":12314,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"无","title":["201410101751.2"],"volumn":"","uDocumentID":null},{"articleId":"3634331","conference":"","creator":["卜倩"],"DBID":"学位","dataBaseInfoMap":[{"key":"有无版权","value":"1"},{"key":"授予学位单位","value":"东北师范大学"},{"key":"出版时间","value":"2010-05-01 00:00:00.0"},{"key":"作者","value":"卜倩"},{"key":"CheckinID","value":"3634331"},{"key":"导师","value":"孙红光"},{"key":"授予学位","value":"硕士"},{"key":"资源类型","value":"学位"},{"key":"正题名","value":"交通场景中的运动目标跟踪方法研究"},{"key":"馆藏号","value":"Y9039268"},{"key":"专业","value":"计算机软件与理论"},{"key":"DOI","value":null}],"date":"\/Date(1272643200000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":26697,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"东北师范大学","title":["交通场景中的运动目标跟踪方法研究"],"volumn":"","uDocumentID":null},{"articleId":"969424","conference":"","creator":["肖其伟"],"DBID":"学位","dataBaseInfoMap":[{"key":"有无版权","value":"0"},{"key":"授予学位单位","value":"华南师范大学"},{"key":"出版时间","value":"2011-03-01 00:00:00.0"},{"key":"作者","value":"肖其伟"},{"key":"CheckinID","value":"969424"},{"key":"导师","value":"刘繁华"},{"key":"授予学位","value":"硕士"},{"key":"资源类型","value":"学位"},{"key":"正题名","value":"Claroline学习管理系统的二次开发与应用研究"},{"key":"馆藏号","value":"J0060325"},{"key":"专业","value":"现代教育技术"},{"key":"DOI","value":null}],"date":"\/Date(1298908800000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":0,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"华南师范大学","title":["Claroline学习管理系统的二次开发与应用研究"],"volumn":"","uDocumentID":null},{"articleId":"5059663","conference":"","creator":["曹顺良","刘杰"],"DBID":"期刊","dataBaseInfoMap":[{"key":"CreatorSecond","value":"刘杰"},{"key":"zz_xm","value":"曹顺良%刘杰%王健%刘念祖%李亦学"},{"key":"CreatorFirst","value":"曹顺良"},{"key":"F_Volumn","value":"25"},{"key":"f_doi","value":"10.3969/j.issn.1001-3695.2008.09.022"},{"key":"有无版权","value":"1"},{"key":"qk_name","value":"计算机应用研究"},{"key":"CheckinID","value":"5059663"},{"key":"f_issue","value":"9"},{"key":"出版日期","value":"2008-09-01 00:00:00.0"},{"key":"f_year","value":"2008"},{"key":"收稿日期类型","value":"ReceivedDate"},{"key":"资源类型","value":"期刊"},{"key":"f_qcode","value":"jsjyyyj200809022"},{"key":"zze_xm","value":"CAO Shun-liang%LIU Jie%WANG Jian%LIU Nian-zu%LI Yi-xue"},{"key":"qk_engname","value":"APPLICATION RESEARCH OF COMPUTERS"},{"key":"收稿日期","value":"2007-12-14 00:00:00.0"},{"key":"F_Title","value":"RE-OEM:一种半结构化生物数据的信息抽取模型"},{"key":"F_EngTitle","value":"RE-OEM:model for information extraction from semi-structured biological data"}],"date":"\/Date(1197561600000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":15589,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"计算机应用研究","title":["RE-OEM:一种半结构化生物数据的信息抽取模型"],"volumn":"","uDocumentID":null},{"articleId":"2691222","conference":"","creator":["江苏大学"],"DBID":"专利","dataBaseInfoMap":[{"key":"date","value":"2017-01-19 00:00:00.0000000"},{"key":"number","value":"201710044816.8"},{"key":"CheckinID","value":"2691222"},{"key":"pname","value":"一种基于正则表达式语义的目标模型快速构建方法"},{"key":"type","value":"发明专利"},{"key":"classification","value":"G06K9/62(2006.01)  G06K9/46(2006.01)  "},{"key":"patentee","value":"江苏大学  "}],"date":"\/Date(1484755200000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":11463,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"无","title":["201710044816.8"],"volumn":"","uDocumentID":null},{"articleId":"985417","conference":"","creator":["北京邮电大学"],"DBID":"专利","dataBaseInfoMap":[{"key":"date","value":"2016-08-06 00:00:00.0000000"},{"key":"number","value":"201610645598.9"},{"key":"CheckinID","value":"985417"},{"key":"pname","value":"信息处理方法及装置"},{"key":"type","value":"发明专利"},{"key":"classification","value":"\t\t\t\tG06F17/30(2006.01)\t\t\t  "},{"key":"patentee","value":"北京邮电大学  "}],"date":"\/Date(1470412800000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":12295,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"无","title":["201610645598.9"],"volumn":"","uDocumentID":null},{"articleId":"2897385","conference":"","creator":["苏向东"],"DBID":"学位","dataBaseInfoMap":[{"key":"有无版权","value":"1"},{"key":"授予学位单位","value":"内蒙古大学"},{"key":"出版时间","value":"2016-03-01 00:00:00.0"},{"key":"作者","value":"苏向东"},{"key":"CheckinID","value":"2897385"},{"key":"导师","value":"高光来"},{"key":"授予学位","value":"博士"},{"key":"资源类型","value":"学位"},{"key":"正题名","value":"基于深度学习和知识策略的蒙古文古籍识别研究"},{"key":"馆藏号","value":"Y3028211"},{"key":"专业","value":"计算机应用技术"},{"key":"DOI","value":null}],"date":"\/Date(1456761600000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":0,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"内蒙古大学","title":["基于深度学习和知识策略的蒙古文古籍识别研究"],"volumn":"","uDocumentID":null},{"articleId":"2765255","conference":"","creator":["李亚松"],"DBID":"学位","dataBaseInfoMap":[{"key":"有无版权","value":"0"},{"key":"授予学位单位","value":"北京邮电大学"},{"key":"出版时间","value":"2014-12-30 00:00:00.0"},{"key":"作者","value":"李亚松"},{"key":"CheckinID","value":"2765255"},{"key":"导师","value":"王玉龙"},{"key":"授予学位","value":"硕士"},{"key":"资源类型","value":"学位"},{"key":"正题名","value":"基于文本挖掘的用户评论分类解析系统的设计与实现"},{"key":"馆藏号","value":"Y2848351"},{"key":"专业","value":"计算机科学与技术"},{"key":"DOI","value":null}],"date":"\/Date(1419868800000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":34536,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"北京邮电大学","title":["基于文本挖掘的用户评论分类解析系统的设计与实现"],"volumn":"","uDocumentID":null},{"articleId":"71216060","conference":"","creator":["杨廷","陈直"],"DBID":"期刊","dataBaseInfoMap":[{"key":"CreatorSecond","value":"陈直"},{"key":"zz_xm","value":"杨廷%陈直%高兆法"},{"key":"CreatorFirst","value":"杨廷"},{"key":"F_Volumn","value":"38"},{"key":"f_doi","value":null},{"key":"有无版权","value":"1"},{"key":"qk_name","value":"山东通信技术"},{"key":"CheckinID","value":"71216060"},{"key":"f_issue","value":"2"},{"key":"出版日期","value":"2018-06-30 00:00:00.0"},{"key":"f_year","value":"2018"},{"key":"收稿日期类型","value":null},{"key":"资源类型","value":"期刊"},{"key":"f_qcode","value":"sdtxjs201802008"},{"key":"zze_xm","value":null},{"key":"qk_engname","value":"Shangdong Communication Technology"},{"key":"收稿日期","value":"2018-06-30 00:00:00.0"},{"key":"F_Title","value":"电信运营商智能客服应用模式分析与实践"},{"key":"F_EngTitle","value":null}],"date":"\/Date(1530288000000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":8812,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"山东通信技术","title":["电信运营商智能客服应用模式分析与实践"],"volumn":"","uDocumentID":null},{"articleId":"818830","conference":"","creator":["蒋莎"],"DBID":"学位","dataBaseInfoMap":[{"key":"有无版权","value":"1"},{"key":"授予学位单位","value":"电子科技大学"},{"key":"出版时间","value":"2013-06-30 00:00:00.0"},{"key":"作者","value":"蒋莎"},{"key":"CheckinID","value":"818830"},{"key":"导师","value":"徐世中"},{"key":"授予学位","value":"硕士"},{"key":"资源类型","value":"学位"},{"key":"正题名","value":"适用于高校学院级办公系统的推荐技术的研究"},{"key":"馆藏号","value":"D762616"},{"key":"专业","value":"通信与信息系统"},{"key":"DOI","value":null}],"date":"\/Date(1372521600000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":0,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"电子科技大学","title":["适用于高校学院级办公系统的推荐技术的研究"],"volumn":"","uDocumentID":null},{"articleId":"72250961","conference":"","creator":["夏玉芹","单雪微"],"DBID":"期刊","dataBaseInfoMap":[{"key":"CreatorSecond","value":"单雪微"},{"key":"zz_xm","value":"夏玉芹%单雪微"},{"key":"CreatorFirst","value":"夏玉芹"},{"key":"F_Volumn","value":"32"},{"key":"f_doi","value":"10.13388/j.cnki.ysajs.20180917.001"},{"key":"有无版权","value":"1"},{"key":"qk_name","value":"阴山学刊（自然科学版）"},{"key":"CheckinID","value":"72250961"},{"key":"f_issue","value":"4"},{"key":"出版日期","value":"2018-12-20 00:00:00.0"},{"key":"f_year","value":"2018"},{"key":"收稿日期类型","value":null},{"key":"资源类型","value":"期刊"},{"key":"f_qcode","value":"ysxk-z201804013"},{"key":"zze_xm","value":"XIA Yu-qin%SHAN Xue-wei"},{"key":"qk_engname","value":"Yinshan Academic Journal"},{"key":"收稿日期","value":"2018-12-20 00:00:00.0"},{"key":"F_Title","value":"基于Python的简单文本情感分析"},{"key":"F_EngTitle","value":"Sentiment Analysis of Simple Text Based on Python"}],"date":"\/Date(1545235200000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":6811,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"阴山学刊（自然科学版）","title":["基于Python的简单文本情感分析"],"volumn":"","uDocumentID":null},{"articleId":"4139799","conference":"","creator":["孙晔琦"],"DBID":"学位","dataBaseInfoMap":[{"key":"有无版权","value":"1"},{"key":"授予学位单位","value":"云南财经大学"},{"key":"出版时间","value":"2018-06-05 00:00:00.0"},{"key":"作者","value":"孙晔琦"},{"key":"CheckinID","value":"4139799"},{"key":"导师","value":"石磊"},{"key":"授予学位","value":"硕士"},{"key":"资源类型","value":"学位"},{"key":"正题名","value":"旅游景点现状分析——基于旅游网站评论数据"},{"key":"馆藏号","value":"D01434749"},{"key":"专业","value":"应用统计"},{"key":"DOI","value":null}],"date":"\/Date(1528128000000)\/","dateSpecified":true,"degree":"","detectDate":"\/Date(253370736000000)\/","detectDateSpecified":true,"detectDateType":"","fullLength":0,"fulltextLength":0,"htmlPath":"","isDisplayFulltext":true,"isPublishedSelfCited":false,"isReference":false,"isSelfCited":false,"isUnPublishedSelfCited":false,"issue":"","paragraphNum":0,"schoolFirst":"","source":"云南财经大学","title":["旅游景点现状分析——基于旅游网站评论数据"],"volumn":"","uDocumentID":null}],"referenceCitedCopyPercent":0,"selfCitedCopyPercent":0,"totalCopyPercent":0.181210786,"unPublishCitedCopyPercent":0};
+        var product = "BD", isPublished = false;
+        //
+        viewModel.copyPercentGraph((data.totalCopyPercent * 100).toFixed(2));
+        viewModel.originalCharacterTotal(data.recordList[0].fulltextLength);
+        viewModel.originalParagraphTotal(data.recordList[0].paragraphNum);
+        viewModel.copyPercents({
+            totalCopyPercent: (data.totalCopyPercent * 100).toFixed(2),
+            referenceCopyPercent: (data.referenceCitedCopyPercent * 100).toFixed(2),
+            degreeCopyPercent: (data.unPublishCitedCopyPercent * 100).toFixed(2),
+            publishedCopyPercent: (data.publishCitedCopyPercent * 100).toFixed(2)
+        });
+
+        //
+        for (var i = 0; i < data.recordHitInfoList.length; i++) {
+            var recordHitInfo = data.recordHitInfoList[i];
+
+            var recordIndex = recordHitInfo["recordIndex"];
+            var copyPercent = recordHitInfo["copyPercent"];
+
+            data.recordList[recordIndex].copyPercent = copyPercent;
+        }
+
+        var width = 800;
+        var height = 80;
+
+        // 全文长度
+        var textLength = data.recordList[0].fullLength;
+
+        //
+        _.forEach(data.hitDetailInfoList, function(d, i){
+            var blockBgClass = 'block bg-others';
+            var textClass = 'text-others';
+            if (data.recordList[d.recordIndex].isPublishedSelfCited) {
+                blockBgClass = 'block bg-published';
+                textClass = 'text-published';
+            }
+            else if (data.recordList[d.recordIndex].isUnPublishedSelfCited) {
+                if (product == "PA" || product == "PLPA" || product == "ALPA" || product == "AP") {
+                    blockBgClass = 'block bg-degree';
+                    textClass = 'text-degree';
+                    isPublished = true;
+                }
+                else {
+
+                }
+            }
+            else if (data.recordList[d.recordIndex].isReference) {
+                blockBgClass = 'block bg-reference';
+                textClass = 'text-reference';
+            }
+
+            $('<div>').appendTo($('#bar1'))
+                .attr('class', blockBgClass)
+                .css(
+                {
+                    'height': height + 'px',
+                    'left': d.beginPosition / textLength * width + 2 + 'px',
+                    'width': d.length / textLength * width + 'px'
+                })
+                .on('mouseover', function () {
+                    $(this).addClass('bg-hover');
+                    //console.log(d.beginPosition + ',' + d.length);
+                    var item = data.recordList[d.recordIndex];
+                    $('#similarArticleInfo1').text((d.copyPercent * 100).toFixed('2') + '%');
+                    $('#similarArticleInfo2').text(item.title[0]);
+                    $('#similarArticleInfo2').attr('href', '#fragment' + i);
+                    $('#similarArticleInfo3').text(item.creator[0]);
+                    $('#similarArticleInfo4').text(item.isReference ? '是' : '否');
+                    $('#similarArticleInfoTR').attr('class', textClass);
+
+                    var hasBanquan = true;
+                    var hasBanquanKV = _.find(item.dataBaseInfoMap, function(item){return item.key=='有无版权'});
+                    if (!hasBanquanKV || hasBanquanKV.value != "1"){
+                        hasBanquan = false;
+                    }
+                    if (item.DBID == "报纸") {
+                        hasBanquan = true;
+                    }
+                    if (!hasBanquan)
+                    {
+                        $('#similarArticleInfoTR').attr('class', 'text-nocopyright');
+                    }
+
+                    $('#similarArticleInfo').show();
+                })
+                .on('mouseout', function (d, i) {
+                    $(this).removeClass('bg-hover');
+                });
+
+        });
+
+        // 相似作者分布
+        var similarAuthors = [];
+        for (var i = 1; i < data.recordList.length; i++) {
+            var record = data.recordList[i];
+            var author = record.creator[0];
+            var AuthorLink = app.AuthorLink + "searchParam=" + author;
+            if (record.DBID == "报纸") {
+                AuthorLink = "javascript:void(0)";
+                if (author == "无" || author == "") {
+                    author = "-";
+                }
+            }
+            var findIndex = _.findIndex(similarAuthors, function(d, i){ return d["Author"] == author; });
+            if(findIndex == -1)
+            {
+                similarAuthors.push({ Author: author, CopyPercent: record["copyPercent"], Link: AuthorLink });
+            }else{
+                similarAuthors[findIndex]["CopyPercent"] += record["copyPercent"];
+            }
+        }
+
+        //similarAuthors = _.filter(similarAuthors, function(item){ return item["CopyPercent"] >= 0.001; });
+        var similarAuthorsByOrder = _.sortBy(similarAuthors, 'CopyPercent').reverse();
+        viewModel.SimilarAuthors(similarAuthorsByOrder);
+
+        // 相似文献列表
+        var similarArticles = _.drop(data.recordList, 1);
+        // 相似文献列表中的题名和作者
+        var list = new Array();
+        _.each(similarArticles, function(item){
+            var hasBanquan = true;
+            var hasBanquanKV = _.find(item.dataBaseInfoMap, function(item){return item.key=='有无版权'});
+            if (!hasBanquanKV || hasBanquanKV.value != "1"){
+                hasBanquan = false;
+            }
+            if (item.DBID == "报纸") {
+                hasBanquan = true;
+            }
+            item.hasBanquan = hasBanquan;
+
+            var model = {};
+            var f_qcodeKV = _.find(item.dataBaseInfoMap, function (item) { return item.key == 'f_qcode' });
+            if (hasBanquan) {
+                if (ArticleId(item.DBID, item) != undefined && ArticleId(item.DBID, item) !="") {
+                    if (ArticleType(item.DBID) == "wangwen") {
+                        model["TitleLink"] = ArticleId(item.DBID, item).value;
+                    }
+                    else {
+                        model["TitleLink"] = app.TitleLink + "_type=" + ArticleType(item.DBID) + "&id=" + ArticleId(item.DBID, item).value;
+                    }
+                }
+                else {
+                    model["TitleLink"] = "javascript:void(0)";
+                }
+                model["copyPercent"] = item.copyPercent;
+                if (item.DBID == "报纸") {
+                    model["AuthorLink"] = "javascript:void(0)";
+                }
+                else if (item.creator[0] == "无") {
+                    model["AuthorLink"] = "javascript:void(0)";
+                }
+                else {
+                    model["AuthorLink"] = app.AuthorLink + "searchParam=" + item.creator[0];
+                }
+                list.push(model);
+            }
+            else {
+                model["TitleLink"] = "javascript:void(0)";
+                model["AuthorLink"] = "javascript:void(0)";
+                model["copyPercent"] = item.copyPercent;
+                list.push(model);
+            }
+
+
+            if(item.DBID!=null)
+            {
+                if (item.DBID.indexOf('期刊') != -1){
+                    item.DBID = '期刊';
+                }
+                if (item.DBID.indexOf('专利') != -1){
+                    item.source="中文专利全文数据库";
+                    var pname,number;
+                    _.find(item.dataBaseInfoMap,function(i){
+                        if(i.key=="pname")
+                            pname=i.value;
+                        if(i.key=="number")
+                            number=i.value;
+                    })
+                    item.title[0]=pname+number;
+                }
+                if (item.DBID.indexOf('报纸') != -1) {
+                    if (item.dataBaseInfoMap != null && item.dataBaseInfoMap.length != 0) {
+                        item.source = _.find(item.dataBaseInfoMap, function (item) { return item.key == 'baoming' }).value;
+                        item.title[0] = _.find(item.dataBaseInfoMap, function (item) { return item.key == 'biaoti' }).value;
+                        if (item.creator[0] == "无" || item.creator[0] == "") {
+                            item.creator[0] = "-";
+                        }
+                        else {
+                            item.creator[0] = _.find(item.dataBaseInfoMap, function (item) { return item.key == 'zuozhe' }).value;
+                        }
+                        item.date = moment(_.find(item.dataBaseInfoMap, function (record) { return record.key == 'riqi' }).value).format('YYYY-MM-DD');
+                    }
+                    else {
+                        item.source = "-";
+                        item.title[0] = "-";
+                        item.creator[0] = "-";
+                        item.date = "-";
+                    }
+                }
+            }
+        });
+        sortedSimilarArticles = _.sortBy(similarArticles, 'copyPercent').reverse();
+        list = _.sortBy(list, 'copyPercent').reverse();
+        viewModel.SimilarArticles(sortedSimilarArticles);
+
+        var content = "语言是最重要的交流工具，在人类的历史上扮演者重要的角色。自从语言发明以来，语言始终是信息的载体，绝大多数文学作品都是以语言或者语言文字的形式流传下来，因此，语言或者以语言为载体的作品蕴含着丰富的信息。\r\n用自然语言[1]与计算机进行通信是自计算机发明以来，人类与计算机交互的重要途径。但是与计算机交互的语言具有难以理解且不易学习的特点。用自然语言与计算机交互是一直以来科学家努力的目标。如果人类可以用自然语言与计算机交互不仅可以为人类节省大量的学习各种高级语言（Java、Python、Shell等），还可以让人类本省对自己的语言有更深刻的认识。\r\n另一方面，计算机与人类通过自然语言的方式进行通信，意味着计算机需要理解自然语言背后的蕴含的意义，同时将处理后的任务以自然语言的形式表达出来。上述两个方面涉及到自然语言理解与自然语言处理。但是自然语言在人类数千年的演化过程中，往往相同的语言在不同的情景下具有不同的含义，因此给计算机理解自然语言带来了严峻的挑战。由于计算机难以理解自然语言的真正意图，导致自然语言生成更加困难。\r\n不论计算机理解人类的自然语言或者计算机生成含义恰当的自然语言，都是十分困难的任务。基于当前学术领域与工业界的情况，恰当的、精准的自然语言处理系统，仍处于初级阶段。在一些特定的领域中，自然语言处理系统的表现尚可：多种语言的翻译系统、检索系统、实施语音翻译、信息检索系统等。自然语言处理的最大阻碍在于自然语言的随意性、多意性。\r\n与基于英文的自然语言处理过程中，基于中文的额自然语言处理更加具有挑战性，也一直以来是自然语言出来领域的研究热点，具体来说：（1）中文中蕴含的信息量大。汉子作为一种历史最悠久的语言，在历史的演化过程中，其意义与含义不断得到扩展。以文言文为例，往往简单几个汉子，遍拥有大量的信息。而现在的白话文，语言灵动，相同的意义可以由各种方式表达出来。另一方面，基于我国研学家的研究，汉字的容量极限是12366个汉字。如此多的汉子经过各种组合其含义具有爆炸性的增大。（2）计算机难以识别。自计算机发明以来，基于键盘的出入系统，没有考虑到中文的输入，因此这种机制为计算机接受中文带来了挑战。另一方面，中文作为一种“方块”语言，很多字体具有相似性，却含义复杂。更进一步，基于语音的输入，要求中文的读音必须准确，但是中文的汉子具有多音的特点，即一个汉子具有多个读音，另一方面，多个汉字具有相同的读音。这就要求计算机必须基于上下文，在理解句子的含义的基础上进行推理演化才能输入正确地句子。上述特点增加了汉字输入计算机的难度。（3）具有多意性。中华民族上下五千年的历史演变过程中，为汉语附上了丰富多彩的含义，相同的语句在不听的情境下表示的意义是不同的，这为计算机理解中文内在的含义增加了难度。\r\n近年来，随着自然语言处理技术与计算机硬件与软件的不断发展更新，人工智能领域得到了长足的进步[2]。在羽然语言处理方面，由于英文与计算机的语言更加相近，因而，基于英文的自然语言处理发展要快于基于中文的自然语言处理。中文的形式与含义的差异性太大、多异性更强，导致了基于中文的额自然语言处理一直以来是一个亟待解决的重要问题，然而随着各种高效自然语言处理方法的提出，为基于中文的自然余力插上了腾飞的翅膀。\r\n1.1 研究背景与意义\r\n自改革开放以来，我国经济迅猛发展，企业已经成为推动我国经济发展的重要力量。然而随着时代的进步，自然语言处理得到了研究领域的广泛重视。随着一系列技术和方法的提出，自然语言处理的精确度得到了人们的认可，并在工业界得到了认可。\r\n目前我们正在进入一个智能化时代（互联网+及工业4.0时代），大数据、云计算和人工智能已经成为这个时代进步的三驾马车（（图1-1所示）），它们分别为智能化时代提供数据、算力和算法层面的支持，从而成为各行各业技术革新和社会发展的重要引擎。\r\n在智能化时代的背景下，云计算为文学作品相关的数据提供了大量的存储空间，使得海量、多维度的文学数据存储成为可能。研究者可以从大量存储的数据中识别、提取感兴趣的信息，为文学作品的分析、情感分析等领域带来巨大的益处，具体来说：（1）目前我们已经有非常好的语音识别系统了，现在基本上达到了人类的水平，在理想环境里可以达到95%以上的正确率。同样我们也有比较正确的机器翻译系统，正确率换算过来也可以有70%到80%，虽然离人的水平还有一定的差距，但是已经是可用的状态。（2）自然语言处理在教育领域中的应用，帮助老师修改作业、批阅试卷等。\r\n图 1-1 拉动智能时代的三驾马车\r\nFigure 1-1 Pulling the Troika of the Intelligent Age\r\n基于上述分析，自然语言处理是智能化时代的主要特色之一，但是达到理想的结果不是一件容易的事情，主要存在两个方面的问题：一方面，迄今为止的语法都限于分析一个孤立的句子，上下文关系和谈话环境对本句的约束和影响还缺乏系统的研究，因此分析歧义、词语省略、代词所指、同一句话在不同场合或由不同的人说出来所具有的不同含义等问题，尚无明确规律可循，需要加强语用学的研究才能逐步解决。另一方面，人理解一个句子不是单凭语法，还运用了大量的有关知识，包括生活知识和专门知识，这些知识无法全部贮存在计算机里。因此一个书面理解系统只能建立在有限的词汇、句型和特定的主题范围内；计算机的贮存量和运转速度大大提高之后，才有可能适当扩大范围。\r\n1.2 研究内容与成果\r\n21世纪信息是行业竞争的核心，数据是行业发展的重要基础。当前，数据分析和数据挖掘成为当下商业活动的重要组成。大数据技术、云计算及物联网等信息通信技术的出现，难以满足海量数据的价值挖掘和内在分析。面对复杂、海量、低密度及快速生成的数据，必须深度分析才能够获取所需信息，以构架数据分析平台及系统快速完成数据文学家主观虚构的文学世界，来源于现实，反映了现实世界，因此每个时期的作品或多或少都有着那个时期特有的特点。在文学作品中，人物的优缺点会被放大，这是作者为了将对现实世界的想法赋予到作品中的人物身上，通过对文学作品进行分析不仅能够了解文学家主观思想还能了解当时的时代特色。\r\n本文对路遥、陈忠实以及贾平凹等作家的作品进行研究分析，具体来说，本文的主要研究内容包括：\r\n1 分词：利用开源框架Jieba提供的接口对任意作品进行分词。\r\n2 分词和标注：利用Jieba相关的接口对分词后的词语进行词性标注。\r\n3 构建用户字典，进行精确分词，并与缺少字典的分词结果进行对比：利用斯坦福大学提供的NLP框架，对任意文学作品构建字典，并依据构建后的字典进行分词，最后与缺少用户字典的额分词结果进行对比。研究结果表明存在用户字典的分词结果根据准确。\r\n4 利用已有的工具对分词结果进行量化：利用Quita，Mattr，Mawatatarad等工具对分词后的结果进行图形化展示。\r\n1.3 论文组织结构\r\n本文的组织结构如下：\r\n第一章， 绪论，主要包括课题的研究背景与意义、研究内容与成果以及论文的组织结构。\r\n第二章， 背景介绍，主要包括神经网络和词袋模型的基础概念与理论，以及目标识别、卷积神经网络的国内外研究现状。\r\n第三章， 深入讨论本文提出的基于文本挖掘的神经网络企业信用评级方法的框架。\r\n第四章， 在开源的数据集上验证所提框架的有效性与准确性，主要包括研究问题阐述、实验对象说明、实验流程。\r\n第五章， 通过图、表的方式回答所提的问题，并深入分析实验结果。\r\n第六章， 研究工作的总结以及未来的展望。\r\n第2章 背景介绍\r\n本章介绍自然语言处理的发展、Jieba框架、以及斯坦福大学的开源NLP框架。\r\n2.1 自然语言处理的国内外研究现状\r\n20世纪中期，自然语言开始进入历史的潮流。虽然发展时间不长，但是人类在自然语言处理方面取得的成绩有目共睹，特别是近20年来，随着人工智能算法、算力的不断提升，自然语言处理也得到了长足的进步。自然语言处理是一个交叉学科，往往涉及到数学、统计学、计算机等领域。当今社会处于信息的时代，各种数据中蕴含着大量的信息，云计算为这些数据提供了大量的存贮空间，并且自然语言处理算法的不断改进为自然语言处理的发展提供了便利。目前，自然语言处理已经成为人们在日常生活中获取信息的重要手段。接下来，在自然语言处理方面的主要技术进行简要分析。\r\nLuhn等人首次将统计学知识运用到自然语言处理中，并通过计算词语频率的方式来推测关键字[3]。Hulth等人将词语信息放入语法中进行分析来提取关键字[4]。Turney等人将机器学习中的算法引入到自然语言处理中，并利用当时先进的C4.5分类算法提取文本中的关键字[5]。2004 年，Mihalcea 和 Tarau 利用特征词在共现窗格中出现的关系构造词与词的图模型，并结合 Google 公词提出的 PageRank 算法，提出 TextRank 关键词提取算法[6]。\r\n2012 年，Google 率先提出知识图谱 （Knowledge  Graph）的概念，将知识图谱应用到搜索引擎中。运用自然语言处理提取实体和实体间的关系，并以此分别作为图谱的节点和边，构建知识图谱。知识图谱的关键技术主要有知识抽取、知识表示、知识融合以及知识推理技术等。文献 [7] 运用 KNN 算法与条件随机场模型，对 Twitter 文本数据中实体进行抽取。陈立玮等人 [8] 提出了一种协同训练方法，通过向传统模型中引入 N-Gram 特征进行协同训练，改善了弱监督关系抽取模型的效果。Li等人根据给定的少量种子链接，利用概念标注方法，发现新的链接，最终实现了知识的扩充 [9]。\r\n2.2 Jieba\r\nJieba[10-14]是一个广泛使用的开源自然语言处理框架，支持三种分词模式：\r\n（1）精确模式，试图将句子最精确地切开，适合文本分析；（2）全模式，把句子中所有的可以成词的词语都扫描出来，速度非常快，但是不能解决歧义；（3）搜索引擎模式，在精确模式的基础上，对长词再次切分，提高召回率，适合用于搜索引擎分词。Jieba分词包在这里运用到了数据结构里的trie（前缀树或字典树）对词语进行高效的分类如图2.1，便于查找。然而trie的从上至下搜索、每一次只判定一个字母、如果某个特定的节点（node）的下一个节点（child node）不再符合搜索要求，那么搜索就会停止，这样效率就会大大的提高。此外，trie也结合了计算机领域另一个知识，名为有向无环图（DAG），trie与有向无环图的结合很高效的解决了第一段所提到的双重理解词语组合的问题。\r\n图2.1 Trie树\r\nJieba利用TF-IDF（Term Frequency-Inverse Document Frequency， 词频-逆文件频率）算法进行关键词的提取，该算法是一种统计方法，用以评估一个词语对于一个文件集或一个语料库中的一份文件的重要程度，其原理可概括为：一个词语在一篇文章中出现次数越多，同时在所有文档中出现次数越少，越能够代表该文章。\r\n2.3 斯坦福NLP\r\nStanford CoreNLP[15-18]是用处理自然语言的工具集合。它可以给出词语的基本形式：词性（它们是公司名、人名等，规范化得日期，时间，和数字），根据短语和语法依赖来标记句子的结构，发现实体之间的关系、情感以及人们所说的话等。\r\n该框架具有：（1）它是一个众多语法分析工具集成的工具包；（2）对任意的文本来说它具有快和鲁棒性强的特点，并且还广泛的用于生产中；（3）它还具有时用性，及时性；（4）支持数量众多的（主要）自然语言；（5）支持编程语言的接口丰富；（6）能够作为简单的web服务运行。\r\nStanford CoreNLP的目的是为了让一系列语言分析工具应用到一段文本上变得更容易。用两行代码就可以让一段原生的文本在一个工具管道（一系列处理文本的操作）中流过。CoreNLP 具有很强的灵活性和扩展性。通过一个选项的设置你就可以选择那些语言处理的工具可以应用到这段文本。Stanford CoreNLP包含许多的斯坦福的nlp工具，包括：词性标注器、命名实体的识别器、解析器（句子与语法结构）、指代消解器（就是在篇章中确定代词指向哪个名词短语的问题）、情感分析器、引导模式学习器、开放信息提取器。而且，一个解释管道还可以包含其他自定义或者第三方的解释器。本文利用该工具为每一个文学作品创建对应的字典。\r\n3 基于Python的文学作品量化分析\r\n3.1 动机\r\n语言是最重要的交流工具，在人类的历史上扮演者重要的角色。自从语言发明以来，语言始终是信息的载体，绝大多数文学作品都是以语言或者语言文字的形式流传下来，因此，语言或者以语言为载体的作品蕴含着丰富的信息。\r\n用自然语言[1]与计算机进行通信是自计算机发明以来，人类与计算机交互的重要途径。但是与计算机交互的语言具有难以理解且不易学习的特点。用自然语言与计算机交互是一直以来科学家努力的目标。如果人类可以用自然语言与计算机交互不仅可以为人类节省大量的学习各种高级语言（Java、Python、Shell等），还可以让人类本省对自己的语言有更深刻的认识。\r\n另一方面，计算机与人类通过自然语言的方式进行通信，意味着计算机需要理解自然语言背后的蕴含的意义，同时将处理后的任务以自然语言的形式表达出来。上述两个方面涉及到自然语言理解与自然语言处理。但是自然语言在人类数千年的演化过程中，往往相同的语言在不同的情景下具有不同的含义，因此给计算机理解自然语言带来了严峻的挑战。由于计算机难以理解自然语言的真正意图，导致自然语言生成更加困难。\r\n不论计算机理解人类的自然语言或者计算机生成含义恰当的自然语言，都是十分困难的任务。基于当前学术领域与工业界的情况，恰当的、精准的自然语言处理系统，仍处于初级阶段。在一些特定的领域中，自然语言处理系统的表现尚可：多种语言的翻译系统、检索系统、实施语音翻译、信息检索系统等。自然语言处理的最大阻碍在于自然语言的随意性、多意性。\r\n与基于英文的自然语言处理过程中，基于中文的额自然语言处理更加具有挑战性，也一直以来是自然语言出来领域的研究热点，具体来说：（1）中文中蕴含的信息量大。汉子作为一种历史最悠久的语言，在历史的演化过程中，其意义与含义不断得到扩展。以文言文为例，往往简单几个汉子，遍拥有大量的信息。而现在的白话文，语言灵动，相同的意义可以由各种方式表达出来。另一方面，基于我国研学家的研究，汉字的容量极限是12366个汉字。如此多的汉子经过各种组合其含义具有爆炸性的增大。（2）计算机难以识别。自计算机发明以来，基于键盘的出入系统，没有考虑到中文的输入，因此这种机制为计算机接受中文带来了挑战。另一方面，中文作为一种“方块”语言，很多字体具有相似性，却含义复杂。更进一步，基于语音的输入，要求中文的读音必须准确，但是中文的汉子具有多音的特点，即一个汉子具有多个读音，另一方面，多个汉字具有相同的读音。这就要求计算机必须基于上下文，在理解句子的含义的基础上进行推理演化才能输入正确地句子。上述特点增加了汉字输入计算机的难度。（3）具有多意性。中华民族上下五千年的历史演变过程中，为汉语附上了丰富多彩的含义，相同的语句在不听的情境下表示的意义是不同的，这为计算机理解中文内在的含义增加了难度。\r\n近年来，随着自然语言处理技术与计算机硬件与软件的不断发展更新，人工智能领域得到了长足的进步。在羽然语言处理方面，由于英文与计算机的语言更加相近，因而，基于英文的自然语言处理发展要快于基于中文的自然语言处理。中文的形式与含义的差异性太大、多异性更强，导致了基于中文的额自然语言处理一直以来是一个亟待解决的重要问题，然而随着各种高效自然语言处理方法的提出，为基于中文的自然余力插上了腾飞的翅膀。\r\n本文的利用python对文学作品进行分析，主要步骤介绍如下。\r\n3.2 实验对象\r\n本文利用路遥、陈忠实、贾平凹作品进行分析，首先从网站下载作者的txt格式的作品集，并利用UtraEdit软件对下载的txt文件进行整理，便于下一步的分析。\r\n3.3 实验环境\r\n本文使用 python 语言编写测试脚本， 运行在 Windos10 64 位操作系统上。该系统有 4 个 CPU 和 16GB 内存。\r\n3.4 数据整理\r\n中文自然语言处理的第一步是获取语料，即语言材料。语料是语言学研究的内容。语料是构成语料库的基本单元。所以，人们简单地用文本作为替代，并把文本中的上下文关系作为现实世界中语言的上下文关系的替代品。我们把一个文本集合称为语料库（Corpus），当有几个这样的文本集合的时候，我们称之为语料库集合（Corpora）。然后对语料进行预处理，在一个完整的中文自然语言处理工程应用中，语料预处理大概会占到整个50%-70%的工作量，所以开发人员大部分时间就在进行语料预处理。下面通过数据洗清、分词、词性标注、去停用词四个大的方面来完成语料的预处理工作。\r\n清理数据应该是数据科学或者自然语言处理工作流程的第一步。如果数据没有清理干净，将很难在探索中的看到实际重要的部分。在数据科学和自然语言处理的环境中，数据清理意味着过滤和修改数据，使数据更容易探索，理解和建模。过滤掉不想要或不需要的部分，这样就不需要查看或处理它们。通过修改不需要的格式，不仅可以正确使用它们，而且可以提高算法的准确度。\r\n本文的处理对象是txt格式的文学作品，为了使得后期处理更加方便，我们去掉作品名、空白行、作者信息、章节信息等不需要的信息。为了高效地完成这一工作，本文利用UtraEdit工具，该工具的界面如图3.1。\r\n图3.1 UtraEdit工具界面\r\nUltraEdit 是一套功能强大的文本编辑器，可以编辑文本、十六进制、ASCII 码，完全可以取代记事本（如果电脑配置足够强大），内建英文单字检查、C++ 及 VB 指令突显，可同时编辑多个文件，而且即使开启很大的文件速度也不会慢。\r\n正则表达式，又称规则表达式，是计算机科学的一个概念。正则表达式是一种字符串的匹配模式，描述的是某一类字符串的共同特征，通常被用来检索、替换那些符合某个模式（规则）的文本。所谓模式，就是模板样式或模具样式。正如符合某种样式的模板或模具，可以用来生产符合这种样式的同一类产品一样；反过来，也可以用某种样式的模板或模具，来检验或框定哪些产品才是符合这种样式的同一类产品。正则表达式正是类似于这样的模板或模具，用来检验或框定哪些字符串是符合正则表达式所描述的字符串共同特征的同一类字符串；而这个检验或框定的过程，就称之为匹配。我们平时所使用的自然语言中，可以用“漂亮”、“坚固”、“挺拔”等高度抽象性词语来描述事物的共同特征一样，一个正则表达式正是某一类字符串的高度抽象，用来描述这类字符串的共同特征。也就是说，一个正则表达式代表了某类字符串的一个集合，而正则表达式相当于对该字符串集合的特征性质描述。正则表达式还可看作是对字符串操作的一种逻辑公式，其构造方法和创建数学表达式的方法差不多，也就是用普通字符（如字母a到z、数字0到9等）和事先定义好的一些特定字符（专业术语称之为元字符），以及这些字符的组合，组成一个特定的规则字符串。而所谓特定的规则，即是正则；因此特定的规则字符串，即是正则表达式。\r\n因此，正则表达式是一种特殊的字符串（即正则表达式字符串，往往直接简称为正则表达式或正则式），用来描述、匹配、过滤符合某些特征的其它字符串（即输入字符串、源字符串、被测试的字符串、被匹配的字符串，往往直接简称为字符串）。一般而言，典型的简单搜索和替换操作，可通过直接提供与预期的搜索结果相匹配的字面文本来实现。虽然这种方法对于文本执行简单的、静态的搜索和替换任务可能已经足够了，然而却缺乏足够的灵活性和动态性。若通过使用正则表达式，则可以：\r\n1. 查找文本。查找符合某一正则表达式的文本，尤其是查找符合某一正则表达式的非固定文本，比如查找符合某一种模式（甚至长度不定）的文本。\r\n2. 提取文本。可以查找字符串内符合某个文本模式的文本（子字符串），然后将其提取出来以备他用。\r\n3. 验证文本。是指检査文本能否完全由正则表达式匹配，主要用来测试和保证数据文本的合法性。\r\n4. 替换文本。可以使用正则表达式所表示的文本模式来识别、匹配文档中符合该文本模式的所有文本（即符合该文本模式的文本的集合），而不只是识别、匹配某个特定的、确切的文本（比如0XXX-XXXXXXXX就是电话号码模式，而0755-88888888就是某个特定的、确切的电话号码），然后可以完全删除匹配该文本模式的所有文本（相当于用空字符串替换）或者用其他文本逐一进行替换。\r\n5. 切分文本。切分也是正则表达式的常见操作之一，切分操作一般以正则表达式匹配的文本作为间隔，将字符串切分成多个片段。\r\n本文利用UtraEdit工具首先对txt文件进行一下操作：\r\n1. 删除行首空行：利用正则表达式“%[ ^t]+”来搜索文中所有的行首空行，然后全部替换成空字符串。\r\n2. 删除行尾空格：利用正则表达式“[ ^t]+$”来搜索文中所有的行尾空行，然后全部替换成空字符串。\r\n3. 删除章节名称：利用正则表达式“第*节”来搜索文本中所有的章节信息，然后全部替换成空字符串。\r\n4. 删除空行：利用正则表达式“%[ ^t]++^p”来搜索文本中所有的章节信息，然后全部替换成空字符串。\r\n整理后的txt文件不仅保留了所有原著中的信息，而且删除了多余的空格、空行便于下一步的进一步分析。以路遥的《匆匆过客》为例，图3.2展示了例前的本文状态。图3.3展示了处理后的文本状态。\r\n从图3.2和3.3可以明显地看出，处理后的文本删除了空格、空行、行首空格等无用信息，完整地保留了原著中的核心信息，便于下一步进行文本处理和分析。\r\n3.5 分词和标注\r\n在利用UtraEdit工具对作家的著作进行初步整理后，得到相对规范的本文，然后对规范的文本进行分词和词性标注。\r\n3.5.1 Jieba框架对文本进行分词的原理\r\njieba自带了一个叫做dict.txt的词典，里面有2万多条词，包含了词条出现的次数（这个次数是于作者自己基于人民日报语料等资源训练得出来的）和词性。该框架具有如下特征。\r\n1. 基于前缀词典实现高效的词图扫描，生成句子中汉字所有可能成词情况所构成的有向无环图（DAG），其主要过程分为两步：（1）根据dict.txt生成trie树，字典在生成trie树的同时， 把每个词的出现次数转换为频率（jieba自带一个dict.txt的词典， 里面有2万多条词， 包含了词条出现的次数和词性（作者基于人民日报语料等资源训练得出来）。trie树结构的词图扫描， 说的就是把这2万多条词语， 放到一个trie树中， trie树是有名的前缀树， 也就是说一个词语的前面几个字一样， 就表示他们具有相同的前缀， 就可以使用trie树来存储， 具有查找速度快的优势）；（2）对待分词句子， 根据dict.txt生成的trie树， 生成DAG， 通俗的讲， 就是将句子根据给定的词典进行查词典操作， 生成所有可能的句子切分。jieba在DAG中记录的是句子中某个词的开始位置， 从0到n-1（n为句子的长度）， 每个开始位置作为字典的键， value是个list， 其中保存了可能的词语的结束位置（通过查字典得到词， 开始位置+词语的长度得到结束位置）。\r\n2. 动态规划查找最大概率路径， 找出基于词频的最大切分组合。首先查找待分词句子中已经切分好的词语（全模式下的分词list），得出查找该词语出现的频率（次数/总数），如果没有该词（基于词典一般都是有的），就把词典中出现频率最小的那个词语的频率作为该词的频率。然后根据动态规划查找最大概率路径的方法，对句子从右往左反向计算最大概率（这里反向是因为汉语句子的重心经常落在后面（右边）， 因为通常情况下形容词太多， 后面的才是主干。因此， 从右往左计算， 正确率要高于从左往右计算， 这里类似于逆向最大匹配）， P（NodeN）=1.0, P（NodeN-1）=P（NodeN）*Max（P（倒数第一个词）依次类推，最后得到最大概率路径，得到最大概率的切分组合。\r\n3. 采用了基于汉字成词能力的 HMM 模型对未登录的词进行分词。利用HMM模型将中文词汇按照BEMS四个状态来标记， B是开始begin位置， E是end结束位置， M是middle中间位置， S是singgle单独成词的位置。jieba采用（B,E,M,S）这四种状态来标记中文词语， 比如北京可以标注为BE，即北/B京/E， 表示北是开始位置， 京是结束位置， 中华民族可以标注为BMME， 就是开始， 中间， 中间， 结束。\r\n3.5.2 Jieba框架对文本进行分词的主要代码\r\n本文的所有均利用Python语言实现，通过调用Jieba分词中的相关接口（图3.4），实现在指定包名下的所有作品进行分词，并将分词后的结果记录在特定的包中。\r\n图3.4 自动分词的主要逻辑\r\n3.5.3 Jieba框架对文本进行标注的原理\r\njieba分词的词性标注过程非常类似于jieba分词的分词流程，同时进行分词和词性标注。在词性标注的时候，首先基于正则表达式（汉字）进行判断，如果是汉字，则会基于前缀词典构建有向无环图，然后基于有向图计算最大概率路径，同时在前缀词典中查找所分出的词的词性，如果没有找到，则将其词性标注为“x”（非语素字非语素字只是一个符号，字母x通常用于代表未知数、符号）；如果HMM标志位置位，并且该词为未登录词，则通过隐马尔科夫模型对其进行词性标注；如果是其它，则根据正则表达式判断其类型，分别赋予“x”，“m”（数词取英语numeral的第3个字母，n，u已有他用），“eng”（英文）。\r\n3.5.2 Jieba框架对文本进行标注的主要代码\r\n本文的所有均利用Python语言实现，通过调用Jieba词性标注中的相关接口（图3.5），实现在指定包名下的所有作品进行词性标注，并将分词后的结果记录在特定的包中\r\n图3.5 词性标注的主要逻辑\r\n3.6 创建自定义字典\r\n3.6.1 斯坦福大学开源CoreNLP介绍\r\n几乎之前所有的神经机器翻译（NMT）使用的词汇都受限，随后可能用一个方法来修补未知的单词。该框架展示了一个全新的能实现开放词汇神经机器翻译（open vocabulary NMT）的词-字符解决方法。建立了一个混合的系统，能够实现大部分的词级（word level）翻译，并可查阅罕见词的字母组成。字符级的循环神经网络能计算源词的表征，并能在需要时恢复未知的目标词。这种混合的方法还有一个双重优点是，与基于字符的网络相比，它更快且更容易训练；同时，它不像基于词的模型那样会产生未知的词。\r\n斯坦福大学的CoreNLP是用处理自然语言的工具集合。它可以给出词语的基本形式：词性（它们是公司名、人名等，规范化得日期，时间，和数字），根据短语和语法依赖来标记句子的结构，发现实体之间的关系、情感以及人们所说的话等。该框架具有以下特点：（1）它是一个众多语法分析工具集成的工具包；（2）对任意的文本来说它具有快和鲁棒性强的特点，并且还广泛的用于生产中；（3）它还具有时用性，及时性；（4）支持数量众多的（主要）自然语言；（5）支持编程语言的接口丰富；（6）能够作为简单的web服务运行。\r\nCoreNLP的目的是为了让一系列语言分析工具应用到一段文本上变得更容易。用两行代码就可以让一段原生的文本在一个工具管道（一系列处理文本的操作）中流过。CoreNLP 具有很强的灵活性和扩展性。通过一个选项的设置你就可以选择那些语言处理的工具可以应用到这段文本。CoreNLP包含许多的斯坦福的nlp工具，包括：词性标注器、命名实体的识别器、解析器（句子与语法结构）、指代消解器（就是在篇章中确定代词指向哪个名词短语的问题）、情感分析器、   引导模式学习器、开放信息提取器。而且，一个解释管道还可以包含其他自定义或者第三方的解释器。\r\n3.6.2 创建用户自定义字典的主要代码\r\n通过调用NLP创建自定义字典中的相关接口（图3.6），实现在指定包名下的所有作品进行词性标注，并将分词后的结果记录在特定的包中。\r\n图3.6 自动创建自定义字典的主要逻辑\r\n3.7 依据自定义字典进行分词\r\n3.7.1 基于字典的Jieba分词\r\n开发者可以指定自己自定义的词典，以便包含jieba词库里没有的词。虽然jieba有新词识别能力，但是自行添加新词可以保证更高的正确率。具体的用法是调用相关的接口jieba.load_userdict（file_name）（file_name为自定义词典的路径）。词典格式和dict.txt一样，一个词占一行；每一行分三部分，一部分为词语，另一部分为词频，最后为词性（可省略），用空格隔开。\r\n3.7.2 基于用户自定义字典的分词代码\r\n通过调用Jieba根据自定义字典中的相关接口（图3.6），实现在指定包名下的所有作品进行分词，并将分词后的结果记录在特定的包中。\r\n图3.7 自动创建自定义字典的主要逻辑\r\n3.8 数据的你和以及可视化\r\n3.8.1 Quita\r\n3.8.2 MATTR\r\n3.8.3 mawatatarad2\r\n4 工作总结与展望\r\n21世纪信息是行业竞争的核心，数据是行业发展的重要基础。当前，数据分析和数据挖掘成为当下商业活动的重要组成。大数据技术、云计算及物联网等信息通信技术的出现，难以满足海量数据的价值挖掘和内在分析。面对复杂、海量、低密度及快速生成的数据，必须深度分析才能够获取所需信息，以构架数据分析平台及系统快速完成数据文学家主观虚构的文学世界，来源于现实，反映了现实世界，因此每个时期的作品或多或少都有着那个时期特有的特点。在文学作品中，人物的优缺点会被放大，这是作者为了将对现实世界的想法赋予到作品中的人物身上，通过对文学作品进行分析不仅能够了解文学家主观思想还能了解当时的时代特色。\r\n本文对路遥、陈忠实以及贾平凹等作家的作品进行研究分析，具体来说，本文的主要研究内容包括：\r\n分词：利用开源框架Jieba提供的接口对任意作品进行分词。\r\n分词和标注：利用Jieba相关的接口对分词后的词语进行词性标注。\r\n构建用户字典，进行精确分词，并与缺少字典的分词结果进行对比：利用斯坦福大学提供的NLP框架，对任意文学作品构建字典，并依据构建后的字典进行分词，最后与缺少用户字典的额分词结果进行对比。研究结果表明存在用户字典的分词结果根据准确。\r\n利用已有的工具对分词结果进行量化：利用Quita，Mattr，Mawatatarad等工具对分词后的结果进行图形化展示。\r\n";
+
+        // 相似片段
+        var similarFragments = data.hitDetailInfoList; // _.filter(data.hitDetailInfoList, function(item){ return item.copyPercent >= 0.001; });
+        var titleAuthorList = [];
+        _.forEach(similarFragments, function(hitDetailInfo){
+            var record = data.recordList[hitDetailInfo.recordIndex];
+            var model = {};
+            hitDetailInfo.title = record.title[0];
+            hitDetailInfo.creator = record.creator[0];
+            hitDetailInfo.DBID = record.DBID + '论文';
+            if(hitDetailInfo.DBID=="网文论文")
+            {
+                var wwurl,qkname;
+                _.find(record.dataBaseInfoMap,function(i){
+                    if(i.key=="qk_name")
+                        wwurl=i.value;
+                    if(i.key=="来源")
+                        qkname=i.value;
+                })
+                hitDetailInfo.source = wwurl +'：'+qkname;
+            }
+            else if (record.DBID.indexOf('报纸') != -1)
+            {
+                if (record.dataBaseInfoMap != null && record.dataBaseInfoMap.length != 0) {
+                    hitDetailInfo.source = _.find(record.dataBaseInfoMap, function (record) { return record.key == 'baoming' }).value;
+                }
+                else {
+                    hitDetailInfo.source = "-";
+                }
+            }
+            else
+            {
+                hitDetailInfo.source = record.source ? record.source : '-';
+            }
+            hitDetailInfo.date = moment(record.date).format('YYYY-MM-DD');
+            if (record.DBID.indexOf('报纸') != -1) {
+                if (record.dataBaseInfoMap != null && record.dataBaseInfoMap.length != 0) {
+                    hitDetailInfo.date = moment(_.find(record.dataBaseInfoMap, function (record) { return record.key == 'riqi' }).value).format('YYYY-MM-DD');
+                }
+                else {
+                    hitDetailInfo.date = "-";
+                }
+            }
+            hitDetailInfo.isReference = record.isReference ? '是': '否';
+
+            hitDetailInfo.left = hitDetailInfo.beginPosition / textLength * 400 + 1 + 'px';
+            hitDetailInfo.width = hitDetailInfo.length / textLength * 400 +1  + 'px';
+
+            // 从全文取相似段落foo，bar
+            // foo
+            var fooBeginPosition = hitDetailInfo.beginPosition - 20;
+            if (fooBeginPosition < 0) {
+                hitDetailInfo.textFoo = content.substr(0, hitDetailInfo.beginPosition).replace(/\r\n/g, '<br />').replace(/\n/g, '<br />').replace(/\r/g, '<br />');
+            }
+            else {
+                hitDetailInfo.textFoo = content.substr(fooBeginPosition, 20).replace(/\r\n/g, '<br />').replace(/\n/g, '<br />').replace(/\r/g, '<br />');
+            }
+
+            // text
+
+            hitDetailInfo.text = content.substr(hitDetailInfo.beginPosition, hitDetailInfo.length);//.replace(/\r\n/g, '<br />').replace(/\n/g, '<br />').replace(/\r/g, '<br />');
+            hitDetailInfo.text1 = "";
+
+            for (var pos = 0; pos < hitDetailInfo.length; pos++)
+            {
+                if (hitDetailInfo.originalChars.indexOf(hitDetailInfo.beginPosition + pos) != -1)
+                {
+                    hitDetailInfo.text1 += '<span class=text-others>' + hitDetailInfo.text[pos] + '</span>';
+                    //leftPar.Add(_pdf.GetPhrase(text[pos].ToString(), Color.RED));
+                }
+                else
+                {
+                    hitDetailInfo.text1 += hitDetailInfo.text[pos];
+                    //leftPar.Add(_pdf.GetPhrase(text[pos].ToString()));
+                }
+            }
+            hitDetailInfo.text = hitDetailInfo.text1.replace(/\r\n/g, '<br />').replace(/\n/g, '<br />').replace(/\r/g, '<br />');
+
+
+            // bar
+            var barBeginPosition = hitDetailInfo.beginPosition + hitDetailInfo.length;
+            hitDetailInfo.textBar = content.substr(barBeginPosition, 20).replace(/\r\n/g, '<br />').replace(/\n/g, '<br />').replace(/\r/g, '<br />');
+
+            // right
+            hitDetailInfo.hitText1 = "";
+            for (var pos = 0; pos < hitDetailInfo.hitLength; pos++)
+            {
+                if (hitDetailInfo.similarChars.indexOf(hitDetailInfo.hitBeginPosition + pos) != -1)
+                {
+                    hitDetailInfo.hitText1 += '<span class=text-others>' + hitDetailInfo.hitText[pos] + '</span>';
+                    //hitTextPar.Add(_pdf.GetPhrase(hitDetailInfo.hitText[pos].ToString(), Color.RED));
+                }
+                else
+                {
+                    hitDetailInfo.hitText1 += hitDetailInfo.hitText[pos];
+                    //hitTextPar.Add(_pdf.GetPhrase(hitDetailInfo.hitText[pos].ToString()));
+                }
+            }
+            hitDetailInfo.hitText = hitDetailInfo.hitText1.replace(/\r\n/g, '<br />').replace(/\n/g, '<br />').replace(/\r/g, '<br />');
+
+            // 版权
+            var hasBanquan = true;
+            var checkType='WFDB';
+
+            var hasBanquanKV = _.find(record.dataBaseInfoMap, function(item){return item.key=='有无版权'});
+            if (!hasBanquanKV || hasBanquanKV.value != "1"){
+                hasBanquan = false;
+            }
+            if (checkType == "SelfDB" || record.DBID == "报纸"){
+                hasBanquan = true;
+            }
+            hitDetailInfo.hasBanquan = hasBanquan;
+
+            if (hasBanquan) {
+                if (ArticleId(record.DBID, record) != undefined && ArticleId(record.DBID, record) != "") {
+                    if (ArticleType(record.DBID) == "wangwen") {
+                        model["TitleLink"] = ArticleId(record.DBID, record).value;
+                    }
+                    else {
+                        model["TitleLink"] = app.TitleLink + "_type=" + ArticleType(record.DBID) + "&id=" + ArticleId(record.DBID, record).value;
+                    }
+                }
+                else {
+                    model["TitleLink"] = "javascript:void(0)";
+                }
+                model["copyPercent"] = record.copyPercent;
+                if (record.DBID == "报纸") {
+                    model["AuthorLink"] = "javascript:void(0)";
+                }
+                else if (record.creator[0] == "无") {
+                    model["AuthorLink"] = "javascript:void(0)";
+                }
+                else {
+                    model["AuthorLink"] = app.AuthorLink + "searchParam=" + record.creator[0];
+                }
+                titleAuthorList.push(model);
+            }
+            else {
+                model["TitleLink"] = "javascript:void(0)";
+                model["AuthorLink"] = "javascript:void(0)";
+                model["copyPercent"] = record.copyPercent;
+                titleAuthorList.push(model);
+            }
+
+        });
+        viewModel.SimilarFragments(similarFragments);
+
+
+        $('#part3').on('mouseleave', function(event){
+            $('#similarArticleInfo').hide();
+        });
+    </script>
+
+</body>
+</html>
